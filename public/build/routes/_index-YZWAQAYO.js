@@ -112,7 +112,7 @@ var require_PostgrestBuilder = __commonJS({
           body: JSON.stringify(this.body),
           signal: this.signal
         }).then(async (res2) => {
-          var _a, _b, _c16;
+          var _a, _b, _c5;
           let error = null;
           let data = null;
           let count = null;
@@ -174,7 +174,7 @@ var require_PostgrestBuilder = __commonJS({
                 };
               }
             }
-            if (error && this.isMaybeSingle && ((_c16 = error === null || error === void 0 ? void 0 : error.details) === null || _c16 === void 0 ? void 0 : _c16.includes("0 rows"))) {
+            if (error && this.isMaybeSingle && ((_c5 = error === null || error === void 0 ? void 0 : error.details) === null || _c5 === void 0 ? void 0 : _c5.includes("0 rows"))) {
               error = null;
               status = 200;
               statusText = "OK";
@@ -194,13 +194,13 @@ var require_PostgrestBuilder = __commonJS({
         });
         if (!this.shouldThrowOnError) {
           res = res.catch((fetchError) => {
-            var _a, _b, _c16;
+            var _a, _b, _c5;
             return {
               error: {
                 message: `${(_a = fetchError === null || fetchError === void 0 ? void 0 : fetchError.name) !== null && _a !== void 0 ? _a : "FetchError"}: ${fetchError === null || fetchError === void 0 ? void 0 : fetchError.message}`,
                 details: `${(_b = fetchError === null || fetchError === void 0 ? void 0 : fetchError.stack) !== null && _b !== void 0 ? _b : ""}`,
                 hint: "",
-                code: `${(_c16 = fetchError === null || fetchError === void 0 ? void 0 : fetchError.code) !== null && _c16 !== void 0 ? _c16 : ""}`
+                code: `${(_c5 = fetchError === null || fetchError === void 0 ? void 0 : fetchError.code) !== null && _c5 !== void 0 ? _c5 : ""}`
               },
               data: null,
               count: null,
@@ -4024,8 +4024,8 @@ var require_types = __commonJS({
           unknownKeys: "strict",
           ...message !== void 0 ? {
             errorMap: (issue, ctx) => {
-              var _a, _b, _c16, _d;
-              const defaultError = (_c16 = (_b = (_a = this._def).errorMap) === null || _b === void 0 ? void 0 : _b.call(_a, issue, ctx).message) !== null && _c16 !== void 0 ? _c16 : ctx.defaultError;
+              var _a, _b, _c5, _d;
+              const defaultError = (_c5 = (_b = (_a = this._def).errorMap) === null || _b === void 0 ? void 0 : _b.call(_a, issue, ctx).message) !== null && _c5 !== void 0 ? _c5 : ctx.defaultError;
               if (issue.code === "unrecognized_keys")
                 return {
                   message: (_d = errorUtil_1.errorUtil.errToObj(message).message) !== null && _d !== void 0 ? _d : defaultError
@@ -6595,7 +6595,7 @@ var require_sdks = __commonJS({
         }
       }
       _createRequest(context, conf, options) {
-        var _a, _b, _c16, _d;
+        var _a, _b, _c5, _d;
         const { method, path, query, headers: opHeaders, security } = conf;
         const base = (_a = conf.baseURL) !== null && _a !== void 0 ? _a : this._baseURL;
         if (!base) {
@@ -6640,7 +6640,7 @@ var require_sdks = __commonJS({
           headers.set(k, v);
         }
         if (!isBrowserLike) {
-          headers.set((_c16 = conf.uaHeader) !== null && _c16 !== void 0 ? _c16 : "user-agent", config_js_1.SDK_METADATA.userAgent);
+          headers.set((_c5 = conf.uaHeader) !== null && _c5 !== void 0 ? _c5 : "user-agent", config_js_1.SDK_METADATA.userAgent);
         }
         let fetchOptions = options === null || options === void 0 ? void 0 : options.fetchOptions;
         if (!(fetchOptions === null || fetchOptions === void 0 ? void 0 : fetchOptions.signal) && conf.timeoutMs && conf.timeoutMs > 0) {
@@ -20824,8 +20824,102 @@ var require_mistralai = __commonJS({
 // app/components/ChatInterface.tsx
 var import_react3 = __toESM(require_react(), 1);
 
-// app/components/ui/card.tsx
+// app/components/ui/button.tsx
+var React3 = __toESM(require_react(), 1);
+
+// node_modules/@radix-ui/react-slot/dist/index.mjs
+var React2 = __toESM(require_react(), 1);
+
+// node_modules/@radix-ui/react-compose-refs/dist/index.mjs
 var React = __toESM(require_react(), 1);
+function setRef(ref, value) {
+  if (typeof ref === "function") {
+    ref(value);
+  } else if (ref !== null && ref !== void 0) {
+    ref.current = value;
+  }
+}
+function composeRefs(...refs) {
+  return (node) => refs.forEach((ref) => setRef(ref, node));
+}
+
+// node_modules/@radix-ui/react-slot/dist/index.mjs
+var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
+var Slot = React2.forwardRef((props, forwardedRef) => {
+  const { children, ...slotProps } = props;
+  const childrenArray = React2.Children.toArray(children);
+  const slottable = childrenArray.find(isSlottable);
+  if (slottable) {
+    const newElement = slottable.props.children;
+    const newChildren = childrenArray.map((child) => {
+      if (child === slottable) {
+        if (React2.Children.count(newElement) > 1)
+          return React2.Children.only(null);
+        return React2.isValidElement(newElement) ? newElement.props.children : null;
+      } else {
+        return child;
+      }
+    });
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlotClone, { ...slotProps, ref: forwardedRef, children: React2.isValidElement(newElement) ? React2.cloneElement(newElement, void 0, newChildren) : null });
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlotClone, { ...slotProps, ref: forwardedRef, children });
+});
+Slot.displayName = "Slot";
+var SlotClone = React2.forwardRef((props, forwardedRef) => {
+  const { children, ...slotProps } = props;
+  if (React2.isValidElement(children)) {
+    const childrenRef = getElementRef(children);
+    return React2.cloneElement(children, {
+      ...mergeProps(slotProps, children.props),
+      // @ts-ignore
+      ref: forwardedRef ? composeRefs(forwardedRef, childrenRef) : childrenRef
+    });
+  }
+  return React2.Children.count(children) > 1 ? React2.Children.only(null) : null;
+});
+SlotClone.displayName = "SlotClone";
+var Slottable = ({ children }) => {
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children });
+};
+function isSlottable(child) {
+  return React2.isValidElement(child) && child.type === Slottable;
+}
+function mergeProps(slotProps, childProps) {
+  const overrideProps = { ...childProps };
+  for (const propName in childProps) {
+    const slotPropValue = slotProps[propName];
+    const childPropValue = childProps[propName];
+    const isHandler = /^on[A-Z]/.test(propName);
+    if (isHandler) {
+      if (slotPropValue && childPropValue) {
+        overrideProps[propName] = (...args) => {
+          childPropValue(...args);
+          slotPropValue(...args);
+        };
+      } else if (slotPropValue) {
+        overrideProps[propName] = slotPropValue;
+      }
+    } else if (propName === "style") {
+      overrideProps[propName] = { ...slotPropValue, ...childPropValue };
+    } else if (propName === "className") {
+      overrideProps[propName] = [slotPropValue, childPropValue].filter(Boolean).join(" ");
+    }
+  }
+  return { ...slotProps, ...overrideProps };
+}
+function getElementRef(element) {
+  let getter = Object.getOwnPropertyDescriptor(element.props, "ref")?.get;
+  let mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
+  if (mayWarn) {
+    return element.ref;
+  }
+  getter = Object.getOwnPropertyDescriptor(element, "ref")?.get;
+  mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
+  if (mayWarn) {
+    return element.props.ref;
+  }
+  return element.props.ref || element.ref;
+}
 
 // node_modules/clsx/dist/clsx.mjs
 function r(e) {
@@ -20847,6 +20941,50 @@ function clsx() {
     (e = arguments[f]) && (t = r(e)) && (n && (n += " "), n += t);
   return n;
 }
+
+// node_modules/class-variance-authority/dist/index.mjs
+var falsyToString = (value) => typeof value === "boolean" ? `${value}` : value === 0 ? "0" : value;
+var cx = clsx;
+var cva = (base, config) => (props) => {
+  var _config_compoundVariants;
+  if ((config === null || config === void 0 ? void 0 : config.variants) == null)
+    return cx(base, props === null || props === void 0 ? void 0 : props.class, props === null || props === void 0 ? void 0 : props.className);
+  const { variants, defaultVariants } = config;
+  const getVariantClassNames = Object.keys(variants).map((variant) => {
+    const variantProp = props === null || props === void 0 ? void 0 : props[variant];
+    const defaultVariantProp = defaultVariants === null || defaultVariants === void 0 ? void 0 : defaultVariants[variant];
+    if (variantProp === null)
+      return null;
+    const variantKey = falsyToString(variantProp) || falsyToString(defaultVariantProp);
+    return variants[variant][variantKey];
+  });
+  const propsWithoutUndefined = props && Object.entries(props).reduce((acc, param) => {
+    let [key, value] = param;
+    if (value === void 0) {
+      return acc;
+    }
+    acc[key] = value;
+    return acc;
+  }, {});
+  const getCompoundVariantClassNames = config === null || config === void 0 ? void 0 : (_config_compoundVariants = config.compoundVariants) === null || _config_compoundVariants === void 0 ? void 0 : _config_compoundVariants.reduce((acc, param) => {
+    let { class: cvClass, className: cvClassName, ...compoundVariantOptions } = param;
+    return Object.entries(compoundVariantOptions).every((param2) => {
+      let [key, value] = param2;
+      return Array.isArray(value) ? value.includes({
+        ...defaultVariants,
+        ...propsWithoutUndefined
+      }[key]) : {
+        ...defaultVariants,
+        ...propsWithoutUndefined
+      }[key] === value;
+    }) ? [
+      ...acc,
+      cvClass,
+      cvClassName
+    ] : acc;
+  }, []);
+  return cx(base, getVariantClassNames, getCompoundVariantClassNames, props === null || props === void 0 ? void 0 : props.class, props === null || props === void 0 ? void 0 : props.className);
+};
 
 // node_modules/tailwind-merge/dist/bundle-mjs.mjs
 var CLASS_PART_SEPARATOR = "-";
@@ -23320,257 +23458,8 @@ function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
-// app/components/ui/card.tsx
+// app/components/ui/button.tsx
 var import_jsx_dev_runtime = __toESM(require_jsx_dev_runtime(), 1);
-if (!window.$RefreshReg$ || !window.$RefreshSig$ || !window.$RefreshRuntime$) {
-  console.warn("remix:hmr: React Fast Refresh only works when the Remix compiler is running in development mode.");
-} else {
-  prevRefreshReg = window.$RefreshReg$;
-  prevRefreshSig = window.$RefreshSig$;
-  window.$RefreshReg$ = (type, id) => {
-    window.$RefreshRuntime$.register(type, '"app/components/ui/card.tsx"' + id);
-  };
-  window.$RefreshSig$ = window.$RefreshRuntime$.createSignatureFunctionForTransform;
-}
-var prevRefreshReg;
-var prevRefreshSig;
-if (import.meta) {
-  import.meta.hot = createHotContext(
-    //@ts-expect-error
-    "app/components/ui/card.tsx"
-  );
-  import.meta.hot.lastModified = "1733945473248.5718";
-}
-var Card = React.forwardRef(_c = ({
-  className,
-  ...props
-}, ref) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { ref, className: cn("rounded-lg border bg-card text-card-foreground shadow-sm", className), ...props }, void 0, false, {
-  fileName: "app/components/ui/card.tsx",
-  lineNumber: 26,
-  columnNumber: 12
-}, this));
-_c2 = Card;
-Card.displayName = "Card";
-var CardHeader = React.forwardRef(_c3 = ({
-  className,
-  ...props
-}, ref) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { ref, className: cn("flex flex-col space-y-1.5 p-6", className), ...props }, void 0, false, {
-  fileName: "app/components/ui/card.tsx",
-  lineNumber: 32,
-  columnNumber: 12
-}, this));
-_c4 = CardHeader;
-CardHeader.displayName = "CardHeader";
-var CardTitle = React.forwardRef(_c5 = ({
-  className,
-  ...props
-}, ref) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { ref, className: cn("text-2xl font-semibold leading-none tracking-tight", className), ...props }, void 0, false, {
-  fileName: "app/components/ui/card.tsx",
-  lineNumber: 38,
-  columnNumber: 12
-}, this));
-_c6 = CardTitle;
-CardTitle.displayName = "CardTitle";
-var CardDescription = React.forwardRef(_c7 = ({
-  className,
-  ...props
-}, ref) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { ref, className: cn("text-sm text-muted-foreground", className), ...props }, void 0, false, {
-  fileName: "app/components/ui/card.tsx",
-  lineNumber: 44,
-  columnNumber: 12
-}, this));
-_c8 = CardDescription;
-CardDescription.displayName = "CardDescription";
-var CardContent = React.forwardRef(_c9 = ({
-  className,
-  ...props
-}, ref) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { ref, className: cn("p-6 pt-0", className), ...props }, void 0, false, {
-  fileName: "app/components/ui/card.tsx",
-  lineNumber: 50,
-  columnNumber: 12
-}, this));
-_c10 = CardContent;
-CardContent.displayName = "CardContent";
-var CardFooter = React.forwardRef(_c11 = ({
-  className,
-  ...props
-}, ref) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { ref, className: cn("flex items-center p-6 pt-0", className), ...props }, void 0, false, {
-  fileName: "app/components/ui/card.tsx",
-  lineNumber: 56,
-  columnNumber: 12
-}, this));
-_c12 = CardFooter;
-CardFooter.displayName = "CardFooter";
-var _c;
-var _c2;
-var _c3;
-var _c4;
-var _c5;
-var _c6;
-var _c7;
-var _c8;
-var _c9;
-var _c10;
-var _c11;
-var _c12;
-$RefreshReg$(_c, "Card$React.forwardRef");
-$RefreshReg$(_c2, "Card");
-$RefreshReg$(_c3, "CardHeader$React.forwardRef");
-$RefreshReg$(_c4, "CardHeader");
-$RefreshReg$(_c5, "CardTitle$React.forwardRef");
-$RefreshReg$(_c6, "CardTitle");
-$RefreshReg$(_c7, "CardDescription$React.forwardRef");
-$RefreshReg$(_c8, "CardDescription");
-$RefreshReg$(_c9, "CardContent$React.forwardRef");
-$RefreshReg$(_c10, "CardContent");
-$RefreshReg$(_c11, "CardFooter$React.forwardRef");
-$RefreshReg$(_c12, "CardFooter");
-window.$RefreshReg$ = prevRefreshReg;
-window.$RefreshSig$ = prevRefreshSig;
-
-// app/components/ui/button.tsx
-var React4 = __toESM(require_react(), 1);
-
-// node_modules/@radix-ui/react-slot/dist/index.mjs
-var React3 = __toESM(require_react(), 1);
-
-// node_modules/@radix-ui/react-compose-refs/dist/index.mjs
-var React2 = __toESM(require_react(), 1);
-function setRef(ref, value) {
-  if (typeof ref === "function") {
-    ref(value);
-  } else if (ref !== null && ref !== void 0) {
-    ref.current = value;
-  }
-}
-function composeRefs(...refs) {
-  return (node) => refs.forEach((ref) => setRef(ref, node));
-}
-
-// node_modules/@radix-ui/react-slot/dist/index.mjs
-var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-var Slot = React3.forwardRef((props, forwardedRef) => {
-  const { children, ...slotProps } = props;
-  const childrenArray = React3.Children.toArray(children);
-  const slottable = childrenArray.find(isSlottable);
-  if (slottable) {
-    const newElement = slottable.props.children;
-    const newChildren = childrenArray.map((child) => {
-      if (child === slottable) {
-        if (React3.Children.count(newElement) > 1)
-          return React3.Children.only(null);
-        return React3.isValidElement(newElement) ? newElement.props.children : null;
-      } else {
-        return child;
-      }
-    });
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlotClone, { ...slotProps, ref: forwardedRef, children: React3.isValidElement(newElement) ? React3.cloneElement(newElement, void 0, newChildren) : null });
-  }
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlotClone, { ...slotProps, ref: forwardedRef, children });
-});
-Slot.displayName = "Slot";
-var SlotClone = React3.forwardRef((props, forwardedRef) => {
-  const { children, ...slotProps } = props;
-  if (React3.isValidElement(children)) {
-    const childrenRef = getElementRef(children);
-    return React3.cloneElement(children, {
-      ...mergeProps(slotProps, children.props),
-      // @ts-ignore
-      ref: forwardedRef ? composeRefs(forwardedRef, childrenRef) : childrenRef
-    });
-  }
-  return React3.Children.count(children) > 1 ? React3.Children.only(null) : null;
-});
-SlotClone.displayName = "SlotClone";
-var Slottable = ({ children }) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children });
-};
-function isSlottable(child) {
-  return React3.isValidElement(child) && child.type === Slottable;
-}
-function mergeProps(slotProps, childProps) {
-  const overrideProps = { ...childProps };
-  for (const propName in childProps) {
-    const slotPropValue = slotProps[propName];
-    const childPropValue = childProps[propName];
-    const isHandler = /^on[A-Z]/.test(propName);
-    if (isHandler) {
-      if (slotPropValue && childPropValue) {
-        overrideProps[propName] = (...args) => {
-          childPropValue(...args);
-          slotPropValue(...args);
-        };
-      } else if (slotPropValue) {
-        overrideProps[propName] = slotPropValue;
-      }
-    } else if (propName === "style") {
-      overrideProps[propName] = { ...slotPropValue, ...childPropValue };
-    } else if (propName === "className") {
-      overrideProps[propName] = [slotPropValue, childPropValue].filter(Boolean).join(" ");
-    }
-  }
-  return { ...slotProps, ...overrideProps };
-}
-function getElementRef(element) {
-  let getter = Object.getOwnPropertyDescriptor(element.props, "ref")?.get;
-  let mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
-  if (mayWarn) {
-    return element.ref;
-  }
-  getter = Object.getOwnPropertyDescriptor(element, "ref")?.get;
-  mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
-  if (mayWarn) {
-    return element.props.ref;
-  }
-  return element.props.ref || element.ref;
-}
-
-// node_modules/class-variance-authority/dist/index.mjs
-var falsyToString = (value) => typeof value === "boolean" ? `${value}` : value === 0 ? "0" : value;
-var cx = clsx;
-var cva = (base, config) => (props) => {
-  var _config_compoundVariants;
-  if ((config === null || config === void 0 ? void 0 : config.variants) == null)
-    return cx(base, props === null || props === void 0 ? void 0 : props.class, props === null || props === void 0 ? void 0 : props.className);
-  const { variants, defaultVariants } = config;
-  const getVariantClassNames = Object.keys(variants).map((variant) => {
-    const variantProp = props === null || props === void 0 ? void 0 : props[variant];
-    const defaultVariantProp = defaultVariants === null || defaultVariants === void 0 ? void 0 : defaultVariants[variant];
-    if (variantProp === null)
-      return null;
-    const variantKey = falsyToString(variantProp) || falsyToString(defaultVariantProp);
-    return variants[variant][variantKey];
-  });
-  const propsWithoutUndefined = props && Object.entries(props).reduce((acc, param) => {
-    let [key, value] = param;
-    if (value === void 0) {
-      return acc;
-    }
-    acc[key] = value;
-    return acc;
-  }, {});
-  const getCompoundVariantClassNames = config === null || config === void 0 ? void 0 : (_config_compoundVariants = config.compoundVariants) === null || _config_compoundVariants === void 0 ? void 0 : _config_compoundVariants.reduce((acc, param) => {
-    let { class: cvClass, className: cvClassName, ...compoundVariantOptions } = param;
-    return Object.entries(compoundVariantOptions).every((param2) => {
-      let [key, value] = param2;
-      return Array.isArray(value) ? value.includes({
-        ...defaultVariants,
-        ...propsWithoutUndefined
-      }[key]) : {
-        ...defaultVariants,
-        ...propsWithoutUndefined
-      }[key] === value;
-    }) ? [
-      ...acc,
-      cvClass,
-      cvClassName
-    ] : acc;
-  }, []);
-  return cx(base, getVariantClassNames, getCompoundVariantClassNames, props === null || props === void 0 ? void 0 : props.class, props === null || props === void 0 ? void 0 : props.className);
-};
-
-// app/components/ui/button.tsx
-var import_jsx_dev_runtime2 = __toESM(require_jsx_dev_runtime(), 1);
 if (!window.$RefreshReg$ || !window.$RefreshSig$ || !window.$RefreshRuntime$) {
   console.warn("remix:hmr: React Fast Refresh only works when the Remix compiler is running in development mode.");
 } else {
@@ -23612,7 +23501,7 @@ var buttonVariants = cva("inline-flex items-center justify-center gap-2 whitespa
     size: "default"
   }
 });
-var Button = React4.forwardRef(_c13 = ({
+var Button = React3.forwardRef(_c = ({
   className,
   variant,
   size,
@@ -23620,7 +23509,7 @@ var Button = React4.forwardRef(_c13 = ({
   ...props
 }, ref) => {
   const Comp = asChild ? Slot : "button";
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Comp, { className: cn(buttonVariants({
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Comp, { className: cn(buttonVariants({
     variant,
     size,
     className
@@ -23630,12 +23519,12 @@ var Button = React4.forwardRef(_c13 = ({
     columnNumber: 10
   }, this);
 });
-_c22 = Button;
+_c2 = Button;
 Button.displayName = "Button";
-var _c13;
-var _c22;
-$RefreshReg$(_c13, "Button$React.forwardRef");
-$RefreshReg$(_c22, "Button");
+var _c;
+var _c2;
+$RefreshReg$(_c, "Button$React.forwardRef");
+$RefreshReg$(_c2, "Button");
 window.$RefreshReg$ = prevRefreshReg;
 window.$RefreshSig$ = prevRefreshSig;
 
@@ -23710,6 +23599,13 @@ var createLucideIcon = (iconName, iconNode) => {
   return Component;
 };
 
+// node_modules/lucide-react/dist/esm/icons/menu.js
+var Menu = createLucideIcon("Menu", [
+  ["line", { x1: "4", x2: "20", y1: "12", y2: "12", key: "1e0a9i" }],
+  ["line", { x1: "4", x2: "20", y1: "6", y2: "6", key: "1owob3" }],
+  ["line", { x1: "4", x2: "20", y1: "18", y2: "18", key: "yk5zj1" }]
+]);
+
 // node_modules/lucide-react/dist/esm/icons/send.js
 var Send = createLucideIcon("Send", [
   [
@@ -23720,6 +23616,12 @@ var Send = createLucideIcon("Send", [
     }
   ],
   ["path", { d: "m21.854 2.147-10.94 10.939", key: "12cjpa" }]
+]);
+
+// node_modules/lucide-react/dist/esm/icons/x.js
+var X = createLucideIcon("X", [
+  ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
+  ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
 ]);
 
 // app/components/ChatInterface.tsx
@@ -24675,9 +24577,9 @@ var RealtimeChannel = class {
       }
     } else {
       return new Promise((resolve) => {
-        var _a2, _b2, _c16;
+        var _a2, _b2, _c5;
         const push = this._push(args.type, args, opts.timeout || this.timeout);
-        if (args.type === "broadcast" && !((_c16 = (_b2 = (_a2 = this.params) === null || _a2 === void 0 ? void 0 : _a2.config) === null || _b2 === void 0 ? void 0 : _b2.broadcast) === null || _c16 === void 0 ? void 0 : _c16.ack)) {
+        if (args.type === "broadcast" && !((_c5 = (_b2 = (_a2 = this.params) === null || _a2 === void 0 ? void 0 : _a2.config) === null || _b2 === void 0 ? void 0 : _b2.broadcast) === null || _c5 === void 0 ? void 0 : _c5.ack)) {
           resolve("ok");
         }
         push.receive("ok", () => resolve("ok"));
@@ -24779,17 +24681,17 @@ var RealtimeChannel = class {
     }
     if (["insert", "update", "delete"].includes(typeLower)) {
       (_a = this.bindings.postgres_changes) === null || _a === void 0 ? void 0 : _a.filter((bind) => {
-        var _a2, _b2, _c16;
-        return ((_a2 = bind.filter) === null || _a2 === void 0 ? void 0 : _a2.event) === "*" || ((_c16 = (_b2 = bind.filter) === null || _b2 === void 0 ? void 0 : _b2.event) === null || _c16 === void 0 ? void 0 : _c16.toLocaleLowerCase()) === typeLower;
+        var _a2, _b2, _c5;
+        return ((_a2 = bind.filter) === null || _a2 === void 0 ? void 0 : _a2.event) === "*" || ((_c5 = (_b2 = bind.filter) === null || _b2 === void 0 ? void 0 : _b2.event) === null || _c5 === void 0 ? void 0 : _c5.toLocaleLowerCase()) === typeLower;
       }).map((bind) => bind.callback(handledPayload, ref));
     } else {
       (_b = this.bindings[typeLower]) === null || _b === void 0 ? void 0 : _b.filter((bind) => {
-        var _a2, _b2, _c16, _d, _e, _f;
+        var _a2, _b2, _c5, _d, _e, _f;
         if (["broadcast", "presence", "postgres_changes"].includes(typeLower)) {
           if ("id" in bind) {
             const bindId = bind.id;
             const bindEvent = (_a2 = bind.filter) === null || _a2 === void 0 ? void 0 : _a2.event;
-            return bindId && ((_b2 = payload.ids) === null || _b2 === void 0 ? void 0 : _b2.includes(bindId)) && (bindEvent === "*" || (bindEvent === null || bindEvent === void 0 ? void 0 : bindEvent.toLocaleLowerCase()) === ((_c16 = payload.data) === null || _c16 === void 0 ? void 0 : _c16.type.toLocaleLowerCase()));
+            return bindId && ((_b2 = payload.ids) === null || _b2 === void 0 ? void 0 : _b2.includes(bindId)) && (bindEvent === "*" || (bindEvent === null || bindEvent === void 0 ? void 0 : bindEvent.toLocaleLowerCase()) === ((_c5 = payload.data) === null || _c5 === void 0 ? void 0 : _c5.type.toLocaleLowerCase()));
           } else {
             const bindEvent = (_e = (_d = bind === null || bind === void 0 ? void 0 : bind.filter) === null || _d === void 0 ? void 0 : _d.event) === null || _e === void 0 ? void 0 : _e.toLocaleLowerCase();
             return bindEvent === "*" || bindEvent === ((_f = payload === null || payload === void 0 ? void 0 : payload.event) === null || _f === void 0 ? void 0 : _f.toLocaleLowerCase());
@@ -27072,7 +26974,7 @@ var GoTrueAdminApi = class {
    * @param params An object which supports `page` and `perPage` as numbers, to alter the paginated results.
    */
   async listUsers(params) {
-    var _a, _b, _c16, _d, _e, _f, _g;
+    var _a, _b, _c5, _d, _e, _f, _g;
     try {
       const pagination = { nextPage: null, lastPage: 0, total: 0 };
       const response = await _request(this.fetch, "GET", `${this.url}/admin/users`, {
@@ -27080,7 +26982,7 @@ var GoTrueAdminApi = class {
         noResolveJson: true,
         query: {
           page: (_b = (_a = params === null || params === void 0 ? void 0 : params.page) === null || _a === void 0 ? void 0 : _a.toString()) !== null && _b !== void 0 ? _b : "",
-          per_page: (_d = (_c16 = params === null || params === void 0 ? void 0 : params.perPage) === null || _c16 === void 0 ? void 0 : _c16.toString()) !== null && _d !== void 0 ? _d : ""
+          per_page: (_d = (_c5 = params === null || params === void 0 ? void 0 : params.perPage) === null || _c5 === void 0 ? void 0 : _c5.toString()) !== null && _d !== void 0 ? _d : ""
         },
         xform: _noResolveJsonResponse
       });
@@ -27509,13 +27411,13 @@ var GoTrueClient = class {
    * @returns A session where the is_anonymous claim in the access token JWT set to true
    */
   async signInAnonymously(credentials) {
-    var _a, _b, _c16;
+    var _a, _b, _c5;
     try {
       const res = await _request(this.fetch, "POST", `${this.url}/signup`, {
         headers: this.headers,
         body: {
           data: (_b = (_a = credentials === null || credentials === void 0 ? void 0 : credentials.options) === null || _a === void 0 ? void 0 : _a.data) !== null && _b !== void 0 ? _b : {},
-          gotrue_meta_security: { captcha_token: (_c16 = credentials === null || credentials === void 0 ? void 0 : credentials.options) === null || _c16 === void 0 ? void 0 : _c16.captchaToken }
+          gotrue_meta_security: { captcha_token: (_c5 = credentials === null || credentials === void 0 ? void 0 : credentials.options) === null || _c5 === void 0 ? void 0 : _c5.captchaToken }
         },
         xform: _sessionResponse
       });
@@ -27548,7 +27450,7 @@ var GoTrueClient = class {
    * @returns A user if the server has "autoconfirm" OFF
    */
   async signUp(credentials) {
-    var _a, _b, _c16;
+    var _a, _b, _c5;
     try {
       let res;
       if ("email" in credentials) {
@@ -27580,7 +27482,7 @@ var GoTrueClient = class {
             phone,
             password,
             data: (_b = options === null || options === void 0 ? void 0 : options.data) !== null && _b !== void 0 ? _b : {},
-            channel: (_c16 = options === null || options === void 0 ? void 0 : options.channel) !== null && _c16 !== void 0 ? _c16 : "sms",
+            channel: (_c5 = options === null || options === void 0 ? void 0 : options.channel) !== null && _c5 !== void 0 ? _c5 : "sms",
             gotrue_meta_security: { captcha_token: options === null || options === void 0 ? void 0 : options.captchaToken }
           },
           xform: _sessionResponse
@@ -27668,11 +27570,11 @@ var GoTrueClient = class {
    * This method supports the PKCE flow.
    */
   async signInWithOAuth(credentials) {
-    var _a, _b, _c16, _d;
+    var _a, _b, _c5, _d;
     return await this._handleProviderSignIn(credentials.provider, {
       redirectTo: (_a = credentials.options) === null || _a === void 0 ? void 0 : _a.redirectTo,
       scopes: (_b = credentials.options) === null || _b === void 0 ? void 0 : _b.scopes,
-      queryParams: (_c16 = credentials.options) === null || _c16 === void 0 ? void 0 : _c16.queryParams,
+      queryParams: (_c5 = credentials.options) === null || _c5 === void 0 ? void 0 : _c5.queryParams,
       skipBrowserRedirect: (_d = credentials.options) === null || _d === void 0 ? void 0 : _d.skipBrowserRedirect
     });
   }
@@ -27776,7 +27678,7 @@ var GoTrueClient = class {
    * This method supports PKCE when an email is passed.
    */
   async signInWithOtp(credentials) {
-    var _a, _b, _c16, _d, _e;
+    var _a, _b, _c5, _d, _e;
     try {
       if ("email" in credentials) {
         const { email, options } = credentials;
@@ -27806,7 +27708,7 @@ var GoTrueClient = class {
           headers: this.headers,
           body: {
             phone,
-            data: (_c16 = options === null || options === void 0 ? void 0 : options.data) !== null && _c16 !== void 0 ? _c16 : {},
+            data: (_c5 = options === null || options === void 0 ? void 0 : options.data) !== null && _c5 !== void 0 ? _c5 : {},
             create_user: (_d = options === null || options === void 0 ? void 0 : options.shouldCreateUser) !== null && _d !== void 0 ? _d : true,
             gotrue_meta_security: { captcha_token: options === null || options === void 0 ? void 0 : options.captchaToken },
             channel: (_e = options === null || options === void 0 ? void 0 : options.channel) !== null && _e !== void 0 ? _e : "sms"
@@ -27875,7 +27777,7 @@ var GoTrueClient = class {
    * organization's SSO Identity Provider UUID directly instead.
    */
   async signInWithSSO(params) {
-    var _a, _b, _c16;
+    var _a, _b, _c5;
     try {
       let codeChallenge = null;
       let codeChallengeMethod = null;
@@ -27884,7 +27786,7 @@ var GoTrueClient = class {
         [codeChallenge, codeChallengeMethod] = await getCodeChallengeAndMethod(this.storage, this.storageKey);
       }
       return await _request(this.fetch, "POST", `${this.url}/sso`, {
-        body: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, "providerId" in params ? { provider_id: params.providerId } : null), "domain" in params ? { domain: params.domain } : null), { redirect_to: (_b = (_a = params.options) === null || _a === void 0 ? void 0 : _a.redirectTo) !== null && _b !== void 0 ? _b : void 0 }), ((_c16 = params === null || params === void 0 ? void 0 : params.options) === null || _c16 === void 0 ? void 0 : _c16.captchaToken) ? { gotrue_meta_security: { captcha_token: params.options.captchaToken } } : null), { skip_http_redirect: true, code_challenge: codeChallenge, code_challenge_method: codeChallengeMethod }),
+        body: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, "providerId" in params ? { provider_id: params.providerId } : null), "domain" in params ? { domain: params.domain } : null), { redirect_to: (_b = (_a = params.options) === null || _a === void 0 ? void 0 : _a.redirectTo) !== null && _b !== void 0 ? _b : void 0 }), ((_c5 = params === null || params === void 0 ? void 0 : params.options) === null || _c5 === void 0 ? void 0 : _c5.captchaToken) ? { gotrue_meta_security: { captcha_token: params.options.captchaToken } } : null), { skip_http_redirect: true, code_challenge: codeChallenge, code_challenge_method: codeChallengeMethod }),
         headers: this.headers,
         xform: _ssoResponse
       });
@@ -28126,7 +28028,7 @@ var GoTrueClient = class {
         });
       }
       return await this._useSession(async (result) => {
-        var _a, _b, _c16;
+        var _a, _b, _c5;
         const { data, error } = result;
         if (error) {
           throw error;
@@ -28136,7 +28038,7 @@ var GoTrueClient = class {
         }
         return await _request(this.fetch, "GET", `${this.url}/user`, {
           headers: this.headers,
-          jwt: (_c16 = (_b = data.session) === null || _b === void 0 ? void 0 : _b.access_token) !== null && _c16 !== void 0 ? _c16 : void 0,
+          jwt: (_c5 = (_b = data.session) === null || _b === void 0 ? void 0 : _b.access_token) !== null && _c5 !== void 0 ? _c5 : void 0,
           xform: _userResponse
         });
       });
@@ -28531,14 +28433,14 @@ var GoTrueClient = class {
     var _a;
     try {
       const { data, error } = await this._useSession(async (result) => {
-        var _a2, _b, _c16, _d, _e;
+        var _a2, _b, _c5, _d, _e;
         const { data: data2, error: error2 } = result;
         if (error2)
           throw error2;
         const url = await this._getUrlForProvider(`${this.url}/user/identities/authorize`, credentials.provider, {
           redirectTo: (_a2 = credentials.options) === null || _a2 === void 0 ? void 0 : _a2.redirectTo,
           scopes: (_b = credentials.options) === null || _b === void 0 ? void 0 : _b.scopes,
-          queryParams: (_c16 = credentials.options) === null || _c16 === void 0 ? void 0 : _c16.queryParams,
+          queryParams: (_c5 = credentials.options) === null || _c5 === void 0 ? void 0 : _c5.queryParams,
           skipBrowserRedirect: true
         });
         return await _request(this.fetch, "GET", url, {
@@ -29187,7 +29089,7 @@ var SupabaseClient = class {
    * @param options.global.headers Any additional headers to send with each network request.
    */
   constructor(supabaseUrl2, supabaseKey2, options) {
-    var _a, _b, _c16;
+    var _a, _b, _c5;
     this.supabaseUrl = supabaseUrl2;
     this.supabaseKey = supabaseKey2;
     if (!supabaseUrl2)
@@ -29210,7 +29112,7 @@ var SupabaseClient = class {
     this.storageKey = (_a = settings.auth.storageKey) !== null && _a !== void 0 ? _a : "";
     this.headers = (_b = settings.global.headers) !== null && _b !== void 0 ? _b : {};
     if (!settings.accessToken) {
-      this.auth = this._initSupabaseAuthClient((_c16 = settings.auth) !== null && _c16 !== void 0 ? _c16 : {}, this.headers, settings.global.fetch);
+      this.auth = this._initSupabaseAuthClient((_c5 = settings.auth) !== null && _c5 !== void 0 ? _c5 : {}, this.headers, settings.global.fetch);
     } else {
       this.accessToken = settings.accessToken;
       this.auth = new Proxy({}, {
@@ -29388,11 +29290,11 @@ if (import.meta) {
     //@ts-expect-error
     "app/lib/agent.ts"
   );
-  import.meta.hot.lastModified = "1734966184985.6233";
+  import.meta.hot.lastModified = "1734970326040.35";
 }
-var apiKey = "DV6vSywg34K6RY8YHN1lz7wHThUmEQaT";
-var supabaseUrl = "https://anxdvsppnslhokzukahv.supabase.co";
-var supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFueGR2c3BwbnNsaG9renVrYWh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzIyNzExMzcsImV4cCI6MjA0Nzg0NzEzN30.x6tt2reEn2WEfpnliWgc1DsBLtgkOzKWfL0LWFWu6AU";
+var apiKey = "";
+var supabaseUrl = "";
+var supabaseKey = "";
 var supabase = createClient(supabaseUrl, supabaseKey);
 var mistralClient = new import_mistralai.Mistral({ apiKey });
 async function fetchDataFromSupabase(embedding) {
@@ -29469,7 +29371,7 @@ async function generateChatResponse({
 }
 
 // app/components/ChatInterface.tsx
-var import_jsx_dev_runtime3 = __toESM(require_jsx_dev_runtime(), 1);
+var import_jsx_dev_runtime2 = __toESM(require_jsx_dev_runtime(), 1);
 if (!window.$RefreshReg$ || !window.$RefreshSig$ || !window.$RefreshRuntime$) {
   console.warn("remix:hmr: React Fast Refresh only works when the Remix compiler is running in development mode.");
 } else {
@@ -29489,7 +29391,7 @@ if (import.meta) {
     //@ts-expect-error
     "app/components/ChatInterface.tsx"
   );
-  import.meta.hot.lastModified = "1734966547818.9731";
+  import.meta.hot.lastModified = "1734970257779.9988";
 }
 var LoadingDots = () => {
   _s();
@@ -29500,25 +29402,26 @@ var LoadingDots = () => {
     }, 500);
     return () => clearInterval(interval);
   }, []);
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", { className: "flex justify-start", children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", { className: `p-3 rounded-lg bg-gray-200 text-black`, children: [
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "flex justify-start", children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: `p-3 rounded-lg bg-gray-200 text-black`, children: [
     "Thinking",
     ".".repeat(dots)
   ] }, void 0, true, {
     fileName: "app/components/ChatInterface.tsx",
-    lineNumber: 93,
+    lineNumber: 92,
     columnNumber: 7
   }, this) }, void 0, false, {
     fileName: "app/components/ChatInterface.tsx",
-    lineNumber: 92,
+    lineNumber: 91,
     columnNumber: 10
   }, this);
 };
 _s(LoadingDots, "vtslgnK/bEF5TxuxaF1WUjsIW7Y=");
-_c14 = LoadingDots;
+_c3 = LoadingDots;
 var ChatInterface = () => {
   _s2();
   const [messages, setMessages] = (0, import_react3.useState)([]);
   const [inputMessage, setInputMessage] = (0, import_react3.useState)("");
+  const [isSidebarOpen, setSidebarOpen] = (0, import_react3.useState)(false);
   const handleSendMessage = async () => {
     if (inputMessage.trim() === "")
       return;
@@ -29563,89 +29466,145 @@ var ChatInterface = () => {
           return message;
         });
       });
-    }, 20);
+    }, 10);
     return () => clearInterval(typingInterval);
   }, [messages]);
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", { className: "flex justify-center items-center min-h-screen bg-gray-100", children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(Card, { className: "w-full max-w-lg", children: [
-    /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(CardHeader, { children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(CardTitle, { children: "Remix Chat" }, void 0, false, {
-      fileName: "app/components/ChatInterface.tsx",
-      lineNumber: 167,
-      columnNumber: 11
-    }, this) }, void 0, false, {
-      fileName: "app/components/ChatInterface.tsx",
-      lineNumber: 166,
-      columnNumber: 9
-    }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(CardContent, { className: "h-96 overflow-y-auto space-y-4", children: messages.map((msg) => {
-      if (msg.sender === "loading") {
-        return /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(LoadingDots, {}, msg.id, false, {
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "flex h-screen bg-gray-100", children: [
+    /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: `fixed inset-y-0 left-0 w-64 bg-white shadow-lg transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 z-10`, children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "flex flex-col w-full", children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "p-4 border-b flex justify-between items-center", children: [
+        /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("h2", { className: "font-semibold", children: "Conversations" }, void 0, false, {
           fileName: "app/components/ChatInterface.tsx",
-          lineNumber: 172,
-          columnNumber: 20
-        }, this);
-      }
-      return /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", { className: `flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`, children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", { className: `p-3 rounded-lg max-w-[70%] ${msg.sender === "user" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`, children: msg.sender === "user" ? msg.content : /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", { dangerouslySetInnerHTML: {
-        __html: msg.displayContent || msg.content
-      } }, void 0, false, {
+          lineNumber: 167,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Button, { variant: "ghost", size: "icon", className: "lg:hidden", onClick: () => setSidebarOpen(false), children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(X, { className: "h-4 w-4" }, void 0, false, {
+          fileName: "app/components/ChatInterface.tsx",
+          lineNumber: 169,
+          columnNumber: 15
+        }, this) }, void 0, false, {
+          fileName: "app/components/ChatInterface.tsx",
+          lineNumber: 168,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
         fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 176,
-        columnNumber: 58
-      }, this) }, void 0, false, {
-        fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 175,
-        columnNumber: 17
-      }, this) }, msg.id, false, {
-        fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 174,
-        columnNumber: 18
-      }, this);
-    }) }, void 0, false, {
-      fileName: "app/components/ChatInterface.tsx",
-      lineNumber: 169,
-      columnNumber: 9
-    }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(CardFooter, { className: "flex space-x-2", children: [
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("textarea", { value: inputMessage, onChange: (e) => setInputMessage(e.target.value), placeholder: "Type a message...", className: "flex-1 w-full p-2 border rounded-lg resize-none min-h-[44px] overflow-y-auto break-words whitespace-pre-wrap bg-white scrollbar-hide focus:outline-none" }, void 0, false, {
-        fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 184,
+        lineNumber: 166,
         columnNumber: 11
       }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(Button, { onClick: handleSendMessage, variant: "default", size: "icon", children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(Send, { className: "h-4 w-4" }, void 0, false, {
+      /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "flex-1 overflow-y-auto p-4", children: ["Chat 1", "Chat 2", "Chat 3"].map((chat, index2) => /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "p-3 hover:bg-gray-100 rounded-lg cursor-pointer mb-2", children: chat }, index2, false, {
         fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 186,
-        columnNumber: 13
-      }, this) }, void 0, false, {
+        lineNumber: 174,
+        columnNumber: 66
+      }, this)) }, void 0, false, {
         fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 185,
+        lineNumber: 172,
         columnNumber: 11
       }, this)
     ] }, void 0, true, {
       fileName: "app/components/ChatInterface.tsx",
-      lineNumber: 183,
+      lineNumber: 165,
       columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "app/components/ChatInterface.tsx",
+      lineNumber: 164,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "flex-1 flex flex-col h-full", children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "bg-white border-b p-4 flex items-center", children: [
+        /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Button, { variant: "ghost", size: "icon", className: "lg:hidden mr-2", onClick: () => setSidebarOpen(true), children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Menu, { className: "h-4 w-4" }, void 0, false, {
+          fileName: "app/components/ChatInterface.tsx",
+          lineNumber: 184,
+          columnNumber: 13
+        }, this) }, void 0, false, {
+          fileName: "app/components/ChatInterface.tsx",
+          lineNumber: 183,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("h1", { className: "font-semibold", children: "Remix Chat" }, void 0, false, {
+          fileName: "app/components/ChatInterface.tsx",
+          lineNumber: 186,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "app/components/ChatInterface.tsx",
+        lineNumber: 182,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "flex-1 overflow-y-auto p-4 space-y-4", children: messages.map((msg) => {
+        if (msg.sender === "loading") {
+          return /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(LoadingDots, {}, msg.id, false, {
+            fileName: "app/components/ChatInterface.tsx",
+            lineNumber: 192,
+            columnNumber: 20
+          }, this);
+        }
+        return /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: `flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`, children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: `p-3 rounded-lg max-w-[70%] ${msg.sender === "user" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`, children: msg.sender === "user" ? msg.content : /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { dangerouslySetInnerHTML: {
+          __html: msg.displayContent || msg.content
+        } }, void 0, false, {
+          fileName: "app/components/ChatInterface.tsx",
+          lineNumber: 196,
+          columnNumber: 58
+        }, this) }, void 0, false, {
+          fileName: "app/components/ChatInterface.tsx",
+          lineNumber: 195,
+          columnNumber: 17
+        }, this) }, msg.id, false, {
+          fileName: "app/components/ChatInterface.tsx",
+          lineNumber: 194,
+          columnNumber: 18
+        }, this);
+      }) }, void 0, false, {
+        fileName: "app/components/ChatInterface.tsx",
+        lineNumber: 189,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "border-t bg-white p-4", children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "flex space-x-2", children: [
+        /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("textarea", { value: inputMessage, onChange: (e) => setInputMessage(e.target.value), placeholder: "Type a message...", className: "flex-1 p-2 border rounded-lg resize-none min-h-[44px] max-h-[120px] overflow-y-auto break-words whitespace-pre-wrap bg-white scrollbar-hide focus:outline-none" }, void 0, false, {
+          fileName: "app/components/ChatInterface.tsx",
+          lineNumber: 206,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Button, { onClick: handleSendMessage, variant: "default", size: "icon", className: "mt-3", children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Send, { className: "h-4 w-4" }, void 0, false, {
+          fileName: "app/components/ChatInterface.tsx",
+          lineNumber: 208,
+          columnNumber: 15
+        }, this) }, void 0, false, {
+          fileName: "app/components/ChatInterface.tsx",
+          lineNumber: 207,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
+        fileName: "app/components/ChatInterface.tsx",
+        lineNumber: 205,
+        columnNumber: 11
+      }, this) }, void 0, false, {
+        fileName: "app/components/ChatInterface.tsx",
+        lineNumber: 204,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "app/components/ChatInterface.tsx",
+      lineNumber: 181,
+      columnNumber: 7
     }, this)
   ] }, void 0, true, {
     fileName: "app/components/ChatInterface.tsx",
-    lineNumber: 165,
-    columnNumber: 7
-  }, this) }, void 0, false, {
-    fileName: "app/components/ChatInterface.tsx",
-    lineNumber: 164,
+    lineNumber: 163,
     columnNumber: 10
   }, this);
 };
-_s2(ChatInterface, "PWoOFtjQcc9Bp+irUdbX7/BbTWM=");
-_c23 = ChatInterface;
+_s2(ChatInterface, "dZ+y6btb7J0dFCo/rDpsabQblUU=");
+_c22 = ChatInterface;
 var ChatInterface_default = ChatInterface;
-var _c14;
-var _c23;
-$RefreshReg$(_c14, "LoadingDots");
-$RefreshReg$(_c23, "ChatInterface");
+var _c3;
+var _c22;
+$RefreshReg$(_c3, "LoadingDots");
+$RefreshReg$(_c22, "ChatInterface");
 window.$RefreshReg$ = prevRefreshReg;
 window.$RefreshSig$ = prevRefreshSig;
 
 // app/routes/_index.tsx
-var import_jsx_dev_runtime4 = __toESM(require_jsx_dev_runtime(), 1);
+var import_jsx_dev_runtime3 = __toESM(require_jsx_dev_runtime(), 1);
 if (!window.$RefreshReg$ || !window.$RefreshSig$ || !window.$RefreshRuntime$) {
   console.warn("remix:hmr: React Fast Refresh only works when the Remix compiler is running in development mode.");
 } else {
@@ -29674,15 +29633,15 @@ var meta = () => {
   }];
 };
 function Index() {
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)(ChatInterface_default, {}, void 0, false, {
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(ChatInterface_default, {}, void 0, false, {
     fileName: "app/routes/_index.tsx",
     lineNumber: 33,
     columnNumber: 10
   }, this);
 }
-_c15 = Index;
-var _c15;
-$RefreshReg$(_c15, "Index");
+_c4 = Index;
+var _c4;
+$RefreshReg$(_c4, "Index");
 window.$RefreshReg$ = prevRefreshReg;
 window.$RefreshSig$ = prevRefreshSig;
 export {
@@ -29723,7 +29682,23 @@ lucide-react/dist/esm/createLucideIcon.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
+lucide-react/dist/esm/icons/menu.js:
+  (**
+   * @license lucide-react v0.468.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
 lucide-react/dist/esm/icons/send.js:
+  (**
+   * @license lucide-react v0.468.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
+lucide-react/dist/esm/icons/x.js:
   (**
    * @license lucide-react v0.468.0 - ISC
    *
@@ -29739,4 +29714,4 @@ lucide-react/dist/esm/lucide-react.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 */
-//# sourceMappingURL=/build/routes/_index-LWK5L4HH.js.map
+//# sourceMappingURL=/build/routes/_index-YZWAQAYO.js.map

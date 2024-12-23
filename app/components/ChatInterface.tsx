@@ -1,13 +1,6 @@
 import { useState, useEffect } from "react";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
-import { Send } from "lucide-react";
+import { Menu, Send, X } from "lucide-react";
 import { ActionFunction, json } from "@remix-run/node";
 import { agent } from "~/lib/agent";
 
@@ -80,6 +73,7 @@ const LoadingDots = () => {
 const ChatInterface = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const handleSendMessage = async () => {
     if (inputMessage.trim() === "") return;
@@ -146,18 +140,58 @@ const ChatInterface = () => {
           return message;
         });
       });
-    }, 20); // Adjust typing speed (50ms between characters)
+    }, 10);
 
     return () => clearInterval(typingInterval);
   }, [messages]);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-lg">
-        <CardHeader>
-          <CardTitle>Remix Chat</CardTitle>
-        </CardHeader>
-        <CardContent className="h-96 overflow-y-auto space-y-4">
+    <div className="flex h-screen bg-gray-100">
+      <div
+        className={`fixed inset-y-0 left-0 w-64 bg-white shadow-lg transform ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 z-10`}
+      >
+        <div className="flex flex-col w-full">
+          <div className="p-4 border-b flex justify-between items-center">
+            <h2 className="font-semibold">Conversations</h2>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden"
+              onClick={() => setSidebarOpen(false)}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+          <div className="flex-1 overflow-y-auto p-4">
+            {/* Conversation list items */}
+            {["Chat 1", "Chat 2", "Chat 3"].map((chat, index) => (
+              <div
+                key={index}
+                className="p-3 hover:bg-gray-100 rounded-lg cursor-pointer mb-2"
+              >
+                {chat}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="flex-1 flex flex-col h-full">
+        <div className="bg-white border-b p-4 flex items-center">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="lg:hidden mr-2"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <Menu className="h-4 w-4" />
+          </Button>
+          <h1 className="font-semibold">Remix Chat</h1>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.map((msg) => {
             if (msg.sender === "loading") {
               return <LoadingDots key={msg.id} />;
@@ -190,19 +224,27 @@ const ChatInterface = () => {
               </div>
             );
           })}
-        </CardContent>
-        <CardFooter className="flex space-x-2">
-          <textarea
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            placeholder="Type a message..."
-            className="flex-1 w-full p-2 border rounded-lg resize-none min-h-[44px] overflow-y-auto break-words whitespace-pre-wrap bg-white scrollbar-hide focus:outline-none"
-          />
-          <Button onClick={handleSendMessage} variant="default" size="icon">
-            <Send className="h-4 w-4" />
-          </Button>
-        </CardFooter>
-      </Card>
+        </div>
+
+        <div className="border-t bg-white p-4">
+          <div className="flex space-x-2">
+            <textarea
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              placeholder="Type a message..."
+              className="flex-1 p-2 border rounded-lg resize-none min-h-[44px] max-h-[120px] overflow-y-auto break-words whitespace-pre-wrap bg-white scrollbar-hide focus:outline-none"
+            />
+            <Button
+              onClick={handleSendMessage}
+              variant="default"
+              size="icon"
+              className="mt-3"
+            >
+              <Send className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
