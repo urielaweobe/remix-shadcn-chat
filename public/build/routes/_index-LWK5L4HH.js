@@ -112,7 +112,7 @@ var require_PostgrestBuilder = __commonJS({
           body: JSON.stringify(this.body),
           signal: this.signal
         }).then(async (res2) => {
-          var _a, _b, _c17;
+          var _a, _b, _c16;
           let error = null;
           let data = null;
           let count = null;
@@ -174,7 +174,7 @@ var require_PostgrestBuilder = __commonJS({
                 };
               }
             }
-            if (error && this.isMaybeSingle && ((_c17 = error === null || error === void 0 ? void 0 : error.details) === null || _c17 === void 0 ? void 0 : _c17.includes("0 rows"))) {
+            if (error && this.isMaybeSingle && ((_c16 = error === null || error === void 0 ? void 0 : error.details) === null || _c16 === void 0 ? void 0 : _c16.includes("0 rows"))) {
               error = null;
               status = 200;
               statusText = "OK";
@@ -194,13 +194,13 @@ var require_PostgrestBuilder = __commonJS({
         });
         if (!this.shouldThrowOnError) {
           res = res.catch((fetchError) => {
-            var _a, _b, _c17;
+            var _a, _b, _c16;
             return {
               error: {
                 message: `${(_a = fetchError === null || fetchError === void 0 ? void 0 : fetchError.name) !== null && _a !== void 0 ? _a : "FetchError"}: ${fetchError === null || fetchError === void 0 ? void 0 : fetchError.message}`,
                 details: `${(_b = fetchError === null || fetchError === void 0 ? void 0 : fetchError.stack) !== null && _b !== void 0 ? _b : ""}`,
                 hint: "",
-                code: `${(_c17 = fetchError === null || fetchError === void 0 ? void 0 : fetchError.code) !== null && _c17 !== void 0 ? _c17 : ""}`
+                code: `${(_c16 = fetchError === null || fetchError === void 0 ? void 0 : fetchError.code) !== null && _c16 !== void 0 ? _c16 : ""}`
               },
               data: null,
               count: null,
@@ -4024,8 +4024,8 @@ var require_types = __commonJS({
           unknownKeys: "strict",
           ...message !== void 0 ? {
             errorMap: (issue, ctx) => {
-              var _a, _b, _c17, _d;
-              const defaultError = (_c17 = (_b = (_a = this._def).errorMap) === null || _b === void 0 ? void 0 : _b.call(_a, issue, ctx).message) !== null && _c17 !== void 0 ? _c17 : ctx.defaultError;
+              var _a, _b, _c16, _d;
+              const defaultError = (_c16 = (_b = (_a = this._def).errorMap) === null || _b === void 0 ? void 0 : _b.call(_a, issue, ctx).message) !== null && _c16 !== void 0 ? _c16 : ctx.defaultError;
               if (issue.code === "unrecognized_keys")
                 return {
                   message: (_d = errorUtil_1.errorUtil.errToObj(message).message) !== null && _d !== void 0 ? _d : defaultError
@@ -6595,7 +6595,7 @@ var require_sdks = __commonJS({
         }
       }
       _createRequest(context, conf, options) {
-        var _a, _b, _c17, _d;
+        var _a, _b, _c16, _d;
         const { method, path, query, headers: opHeaders, security } = conf;
         const base = (_a = conf.baseURL) !== null && _a !== void 0 ? _a : this._baseURL;
         if (!base) {
@@ -6640,7 +6640,7 @@ var require_sdks = __commonJS({
           headers.set(k, v);
         }
         if (!isBrowserLike) {
-          headers.set((_c17 = conf.uaHeader) !== null && _c17 !== void 0 ? _c17 : "user-agent", config_js_1.SDK_METADATA.userAgent);
+          headers.set((_c16 = conf.uaHeader) !== null && _c16 !== void 0 ? _c16 : "user-agent", config_js_1.SDK_METADATA.userAgent);
         }
         let fetchOptions = options === null || options === void 0 ? void 0 : options.fetchOptions;
         if (!(fetchOptions === null || fetchOptions === void 0 ? void 0 : fetchOptions.signal) && conf.timeoutMs && conf.timeoutMs > 0) {
@@ -23428,56 +23428,14 @@ $RefreshReg$(_c12, "CardFooter");
 window.$RefreshReg$ = prevRefreshReg;
 window.$RefreshSig$ = prevRefreshSig;
 
-// app/components/ui/input.tsx
-var React2 = __toESM(require_react(), 1);
-var import_jsx_dev_runtime2 = __toESM(require_jsx_dev_runtime(), 1);
-if (!window.$RefreshReg$ || !window.$RefreshSig$ || !window.$RefreshRuntime$) {
-  console.warn("remix:hmr: React Fast Refresh only works when the Remix compiler is running in development mode.");
-} else {
-  prevRefreshReg = window.$RefreshReg$;
-  prevRefreshSig = window.$RefreshSig$;
-  window.$RefreshReg$ = (type, id) => {
-    window.$RefreshRuntime$.register(type, '"app/components/ui/input.tsx"' + id);
-  };
-  window.$RefreshSig$ = window.$RefreshRuntime$.createSignatureFunctionForTransform;
-}
-var prevRefreshReg;
-var prevRefreshSig;
-if (import.meta) {
-  import.meta.hot = createHotContext(
-    //@ts-expect-error
-    "app/components/ui/input.tsx"
-  );
-  import.meta.hot.lastModified = "1733945473487.392";
-}
-var Input = React2.forwardRef(_c13 = ({
-  className,
-  type,
-  ...props
-}, ref) => {
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("input", { type, className: cn("flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm", className), ref, ...props }, void 0, false, {
-    fileName: "app/components/ui/input.tsx",
-    lineNumber: 28,
-    columnNumber: 10
-  }, this);
-});
-_c22 = Input;
-Input.displayName = "Input";
-var _c13;
-var _c22;
-$RefreshReg$(_c13, "Input$React.forwardRef");
-$RefreshReg$(_c22, "Input");
-window.$RefreshReg$ = prevRefreshReg;
-window.$RefreshSig$ = prevRefreshSig;
-
 // app/components/ui/button.tsx
-var React5 = __toESM(require_react(), 1);
-
-// node_modules/@radix-ui/react-slot/dist/index.mjs
 var React4 = __toESM(require_react(), 1);
 
-// node_modules/@radix-ui/react-compose-refs/dist/index.mjs
+// node_modules/@radix-ui/react-slot/dist/index.mjs
 var React3 = __toESM(require_react(), 1);
+
+// node_modules/@radix-ui/react-compose-refs/dist/index.mjs
+var React2 = __toESM(require_react(), 1);
 function setRef(ref, value) {
   if (typeof ref === "function") {
     ref(value);
@@ -23491,44 +23449,44 @@ function composeRefs(...refs) {
 
 // node_modules/@radix-ui/react-slot/dist/index.mjs
 var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-var Slot = React4.forwardRef((props, forwardedRef) => {
+var Slot = React3.forwardRef((props, forwardedRef) => {
   const { children, ...slotProps } = props;
-  const childrenArray = React4.Children.toArray(children);
+  const childrenArray = React3.Children.toArray(children);
   const slottable = childrenArray.find(isSlottable);
   if (slottable) {
     const newElement = slottable.props.children;
     const newChildren = childrenArray.map((child) => {
       if (child === slottable) {
-        if (React4.Children.count(newElement) > 1)
-          return React4.Children.only(null);
-        return React4.isValidElement(newElement) ? newElement.props.children : null;
+        if (React3.Children.count(newElement) > 1)
+          return React3.Children.only(null);
+        return React3.isValidElement(newElement) ? newElement.props.children : null;
       } else {
         return child;
       }
     });
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlotClone, { ...slotProps, ref: forwardedRef, children: React4.isValidElement(newElement) ? React4.cloneElement(newElement, void 0, newChildren) : null });
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlotClone, { ...slotProps, ref: forwardedRef, children: React3.isValidElement(newElement) ? React3.cloneElement(newElement, void 0, newChildren) : null });
   }
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlotClone, { ...slotProps, ref: forwardedRef, children });
 });
 Slot.displayName = "Slot";
-var SlotClone = React4.forwardRef((props, forwardedRef) => {
+var SlotClone = React3.forwardRef((props, forwardedRef) => {
   const { children, ...slotProps } = props;
-  if (React4.isValidElement(children)) {
+  if (React3.isValidElement(children)) {
     const childrenRef = getElementRef(children);
-    return React4.cloneElement(children, {
+    return React3.cloneElement(children, {
       ...mergeProps(slotProps, children.props),
       // @ts-ignore
       ref: forwardedRef ? composeRefs(forwardedRef, childrenRef) : childrenRef
     });
   }
-  return React4.Children.count(children) > 1 ? React4.Children.only(null) : null;
+  return React3.Children.count(children) > 1 ? React3.Children.only(null) : null;
 });
 SlotClone.displayName = "SlotClone";
 var Slottable = ({ children }) => {
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children });
 };
 function isSlottable(child) {
-  return React4.isValidElement(child) && child.type === Slottable;
+  return React3.isValidElement(child) && child.type === Slottable;
 }
 function mergeProps(slotProps, childProps) {
   const overrideProps = { ...childProps };
@@ -23612,7 +23570,7 @@ var cva = (base, config) => (props) => {
 };
 
 // app/components/ui/button.tsx
-var import_jsx_dev_runtime3 = __toESM(require_jsx_dev_runtime(), 1);
+var import_jsx_dev_runtime2 = __toESM(require_jsx_dev_runtime(), 1);
 if (!window.$RefreshReg$ || !window.$RefreshSig$ || !window.$RefreshRuntime$) {
   console.warn("remix:hmr: React Fast Refresh only works when the Remix compiler is running in development mode.");
 } else {
@@ -23654,7 +23612,7 @@ var buttonVariants = cva("inline-flex items-center justify-center gap-2 whitespa
     size: "default"
   }
 });
-var Button = React5.forwardRef(_c14 = ({
+var Button = React4.forwardRef(_c13 = ({
   className,
   variant,
   size,
@@ -23662,7 +23620,7 @@ var Button = React5.forwardRef(_c14 = ({
   ...props
 }, ref) => {
   const Comp = asChild ? Slot : "button";
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(Comp, { className: cn(buttonVariants({
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Comp, { className: cn(buttonVariants({
     variant,
     size,
     className
@@ -23672,12 +23630,12 @@ var Button = React5.forwardRef(_c14 = ({
     columnNumber: 10
   }, this);
 });
-_c23 = Button;
+_c22 = Button;
 Button.displayName = "Button";
-var _c14;
-var _c23;
-$RefreshReg$(_c14, "Button$React.forwardRef");
-$RefreshReg$(_c23, "Button");
+var _c13;
+var _c22;
+$RefreshReg$(_c13, "Button$React.forwardRef");
+$RefreshReg$(_c22, "Button");
 window.$RefreshReg$ = prevRefreshReg;
 window.$RefreshSig$ = prevRefreshSig;
 
@@ -24717,9 +24675,9 @@ var RealtimeChannel = class {
       }
     } else {
       return new Promise((resolve) => {
-        var _a2, _b2, _c17;
+        var _a2, _b2, _c16;
         const push = this._push(args.type, args, opts.timeout || this.timeout);
-        if (args.type === "broadcast" && !((_c17 = (_b2 = (_a2 = this.params) === null || _a2 === void 0 ? void 0 : _a2.config) === null || _b2 === void 0 ? void 0 : _b2.broadcast) === null || _c17 === void 0 ? void 0 : _c17.ack)) {
+        if (args.type === "broadcast" && !((_c16 = (_b2 = (_a2 = this.params) === null || _a2 === void 0 ? void 0 : _a2.config) === null || _b2 === void 0 ? void 0 : _b2.broadcast) === null || _c16 === void 0 ? void 0 : _c16.ack)) {
           resolve("ok");
         }
         push.receive("ok", () => resolve("ok"));
@@ -24821,17 +24779,17 @@ var RealtimeChannel = class {
     }
     if (["insert", "update", "delete"].includes(typeLower)) {
       (_a = this.bindings.postgres_changes) === null || _a === void 0 ? void 0 : _a.filter((bind) => {
-        var _a2, _b2, _c17;
-        return ((_a2 = bind.filter) === null || _a2 === void 0 ? void 0 : _a2.event) === "*" || ((_c17 = (_b2 = bind.filter) === null || _b2 === void 0 ? void 0 : _b2.event) === null || _c17 === void 0 ? void 0 : _c17.toLocaleLowerCase()) === typeLower;
+        var _a2, _b2, _c16;
+        return ((_a2 = bind.filter) === null || _a2 === void 0 ? void 0 : _a2.event) === "*" || ((_c16 = (_b2 = bind.filter) === null || _b2 === void 0 ? void 0 : _b2.event) === null || _c16 === void 0 ? void 0 : _c16.toLocaleLowerCase()) === typeLower;
       }).map((bind) => bind.callback(handledPayload, ref));
     } else {
       (_b = this.bindings[typeLower]) === null || _b === void 0 ? void 0 : _b.filter((bind) => {
-        var _a2, _b2, _c17, _d, _e, _f;
+        var _a2, _b2, _c16, _d, _e, _f;
         if (["broadcast", "presence", "postgres_changes"].includes(typeLower)) {
           if ("id" in bind) {
             const bindId = bind.id;
             const bindEvent = (_a2 = bind.filter) === null || _a2 === void 0 ? void 0 : _a2.event;
-            return bindId && ((_b2 = payload.ids) === null || _b2 === void 0 ? void 0 : _b2.includes(bindId)) && (bindEvent === "*" || (bindEvent === null || bindEvent === void 0 ? void 0 : bindEvent.toLocaleLowerCase()) === ((_c17 = payload.data) === null || _c17 === void 0 ? void 0 : _c17.type.toLocaleLowerCase()));
+            return bindId && ((_b2 = payload.ids) === null || _b2 === void 0 ? void 0 : _b2.includes(bindId)) && (bindEvent === "*" || (bindEvent === null || bindEvent === void 0 ? void 0 : bindEvent.toLocaleLowerCase()) === ((_c16 = payload.data) === null || _c16 === void 0 ? void 0 : _c16.type.toLocaleLowerCase()));
           } else {
             const bindEvent = (_e = (_d = bind === null || bind === void 0 ? void 0 : bind.filter) === null || _d === void 0 ? void 0 : _d.event) === null || _e === void 0 ? void 0 : _e.toLocaleLowerCase();
             return bindEvent === "*" || bindEvent === ((_f = payload === null || payload === void 0 ? void 0 : payload.event) === null || _f === void 0 ? void 0 : _f.toLocaleLowerCase());
@@ -27114,7 +27072,7 @@ var GoTrueAdminApi = class {
    * @param params An object which supports `page` and `perPage` as numbers, to alter the paginated results.
    */
   async listUsers(params) {
-    var _a, _b, _c17, _d, _e, _f, _g;
+    var _a, _b, _c16, _d, _e, _f, _g;
     try {
       const pagination = { nextPage: null, lastPage: 0, total: 0 };
       const response = await _request(this.fetch, "GET", `${this.url}/admin/users`, {
@@ -27122,7 +27080,7 @@ var GoTrueAdminApi = class {
         noResolveJson: true,
         query: {
           page: (_b = (_a = params === null || params === void 0 ? void 0 : params.page) === null || _a === void 0 ? void 0 : _a.toString()) !== null && _b !== void 0 ? _b : "",
-          per_page: (_d = (_c17 = params === null || params === void 0 ? void 0 : params.perPage) === null || _c17 === void 0 ? void 0 : _c17.toString()) !== null && _d !== void 0 ? _d : ""
+          per_page: (_d = (_c16 = params === null || params === void 0 ? void 0 : params.perPage) === null || _c16 === void 0 ? void 0 : _c16.toString()) !== null && _d !== void 0 ? _d : ""
         },
         xform: _noResolveJsonResponse
       });
@@ -27551,13 +27509,13 @@ var GoTrueClient = class {
    * @returns A session where the is_anonymous claim in the access token JWT set to true
    */
   async signInAnonymously(credentials) {
-    var _a, _b, _c17;
+    var _a, _b, _c16;
     try {
       const res = await _request(this.fetch, "POST", `${this.url}/signup`, {
         headers: this.headers,
         body: {
           data: (_b = (_a = credentials === null || credentials === void 0 ? void 0 : credentials.options) === null || _a === void 0 ? void 0 : _a.data) !== null && _b !== void 0 ? _b : {},
-          gotrue_meta_security: { captcha_token: (_c17 = credentials === null || credentials === void 0 ? void 0 : credentials.options) === null || _c17 === void 0 ? void 0 : _c17.captchaToken }
+          gotrue_meta_security: { captcha_token: (_c16 = credentials === null || credentials === void 0 ? void 0 : credentials.options) === null || _c16 === void 0 ? void 0 : _c16.captchaToken }
         },
         xform: _sessionResponse
       });
@@ -27590,7 +27548,7 @@ var GoTrueClient = class {
    * @returns A user if the server has "autoconfirm" OFF
    */
   async signUp(credentials) {
-    var _a, _b, _c17;
+    var _a, _b, _c16;
     try {
       let res;
       if ("email" in credentials) {
@@ -27622,7 +27580,7 @@ var GoTrueClient = class {
             phone,
             password,
             data: (_b = options === null || options === void 0 ? void 0 : options.data) !== null && _b !== void 0 ? _b : {},
-            channel: (_c17 = options === null || options === void 0 ? void 0 : options.channel) !== null && _c17 !== void 0 ? _c17 : "sms",
+            channel: (_c16 = options === null || options === void 0 ? void 0 : options.channel) !== null && _c16 !== void 0 ? _c16 : "sms",
             gotrue_meta_security: { captcha_token: options === null || options === void 0 ? void 0 : options.captchaToken }
           },
           xform: _sessionResponse
@@ -27710,11 +27668,11 @@ var GoTrueClient = class {
    * This method supports the PKCE flow.
    */
   async signInWithOAuth(credentials) {
-    var _a, _b, _c17, _d;
+    var _a, _b, _c16, _d;
     return await this._handleProviderSignIn(credentials.provider, {
       redirectTo: (_a = credentials.options) === null || _a === void 0 ? void 0 : _a.redirectTo,
       scopes: (_b = credentials.options) === null || _b === void 0 ? void 0 : _b.scopes,
-      queryParams: (_c17 = credentials.options) === null || _c17 === void 0 ? void 0 : _c17.queryParams,
+      queryParams: (_c16 = credentials.options) === null || _c16 === void 0 ? void 0 : _c16.queryParams,
       skipBrowserRedirect: (_d = credentials.options) === null || _d === void 0 ? void 0 : _d.skipBrowserRedirect
     });
   }
@@ -27818,7 +27776,7 @@ var GoTrueClient = class {
    * This method supports PKCE when an email is passed.
    */
   async signInWithOtp(credentials) {
-    var _a, _b, _c17, _d, _e;
+    var _a, _b, _c16, _d, _e;
     try {
       if ("email" in credentials) {
         const { email, options } = credentials;
@@ -27848,7 +27806,7 @@ var GoTrueClient = class {
           headers: this.headers,
           body: {
             phone,
-            data: (_c17 = options === null || options === void 0 ? void 0 : options.data) !== null && _c17 !== void 0 ? _c17 : {},
+            data: (_c16 = options === null || options === void 0 ? void 0 : options.data) !== null && _c16 !== void 0 ? _c16 : {},
             create_user: (_d = options === null || options === void 0 ? void 0 : options.shouldCreateUser) !== null && _d !== void 0 ? _d : true,
             gotrue_meta_security: { captcha_token: options === null || options === void 0 ? void 0 : options.captchaToken },
             channel: (_e = options === null || options === void 0 ? void 0 : options.channel) !== null && _e !== void 0 ? _e : "sms"
@@ -27917,7 +27875,7 @@ var GoTrueClient = class {
    * organization's SSO Identity Provider UUID directly instead.
    */
   async signInWithSSO(params) {
-    var _a, _b, _c17;
+    var _a, _b, _c16;
     try {
       let codeChallenge = null;
       let codeChallengeMethod = null;
@@ -27926,7 +27884,7 @@ var GoTrueClient = class {
         [codeChallenge, codeChallengeMethod] = await getCodeChallengeAndMethod(this.storage, this.storageKey);
       }
       return await _request(this.fetch, "POST", `${this.url}/sso`, {
-        body: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, "providerId" in params ? { provider_id: params.providerId } : null), "domain" in params ? { domain: params.domain } : null), { redirect_to: (_b = (_a = params.options) === null || _a === void 0 ? void 0 : _a.redirectTo) !== null && _b !== void 0 ? _b : void 0 }), ((_c17 = params === null || params === void 0 ? void 0 : params.options) === null || _c17 === void 0 ? void 0 : _c17.captchaToken) ? { gotrue_meta_security: { captcha_token: params.options.captchaToken } } : null), { skip_http_redirect: true, code_challenge: codeChallenge, code_challenge_method: codeChallengeMethod }),
+        body: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, "providerId" in params ? { provider_id: params.providerId } : null), "domain" in params ? { domain: params.domain } : null), { redirect_to: (_b = (_a = params.options) === null || _a === void 0 ? void 0 : _a.redirectTo) !== null && _b !== void 0 ? _b : void 0 }), ((_c16 = params === null || params === void 0 ? void 0 : params.options) === null || _c16 === void 0 ? void 0 : _c16.captchaToken) ? { gotrue_meta_security: { captcha_token: params.options.captchaToken } } : null), { skip_http_redirect: true, code_challenge: codeChallenge, code_challenge_method: codeChallengeMethod }),
         headers: this.headers,
         xform: _ssoResponse
       });
@@ -28168,7 +28126,7 @@ var GoTrueClient = class {
         });
       }
       return await this._useSession(async (result) => {
-        var _a, _b, _c17;
+        var _a, _b, _c16;
         const { data, error } = result;
         if (error) {
           throw error;
@@ -28178,7 +28136,7 @@ var GoTrueClient = class {
         }
         return await _request(this.fetch, "GET", `${this.url}/user`, {
           headers: this.headers,
-          jwt: (_c17 = (_b = data.session) === null || _b === void 0 ? void 0 : _b.access_token) !== null && _c17 !== void 0 ? _c17 : void 0,
+          jwt: (_c16 = (_b = data.session) === null || _b === void 0 ? void 0 : _b.access_token) !== null && _c16 !== void 0 ? _c16 : void 0,
           xform: _userResponse
         });
       });
@@ -28573,14 +28531,14 @@ var GoTrueClient = class {
     var _a;
     try {
       const { data, error } = await this._useSession(async (result) => {
-        var _a2, _b, _c17, _d, _e;
+        var _a2, _b, _c16, _d, _e;
         const { data: data2, error: error2 } = result;
         if (error2)
           throw error2;
         const url = await this._getUrlForProvider(`${this.url}/user/identities/authorize`, credentials.provider, {
           redirectTo: (_a2 = credentials.options) === null || _a2 === void 0 ? void 0 : _a2.redirectTo,
           scopes: (_b = credentials.options) === null || _b === void 0 ? void 0 : _b.scopes,
-          queryParams: (_c17 = credentials.options) === null || _c17 === void 0 ? void 0 : _c17.queryParams,
+          queryParams: (_c16 = credentials.options) === null || _c16 === void 0 ? void 0 : _c16.queryParams,
           skipBrowserRedirect: true
         });
         return await _request(this.fetch, "GET", url, {
@@ -29229,7 +29187,7 @@ var SupabaseClient = class {
    * @param options.global.headers Any additional headers to send with each network request.
    */
   constructor(supabaseUrl2, supabaseKey2, options) {
-    var _a, _b, _c17;
+    var _a, _b, _c16;
     this.supabaseUrl = supabaseUrl2;
     this.supabaseKey = supabaseKey2;
     if (!supabaseUrl2)
@@ -29252,7 +29210,7 @@ var SupabaseClient = class {
     this.storageKey = (_a = settings.auth.storageKey) !== null && _a !== void 0 ? _a : "";
     this.headers = (_b = settings.global.headers) !== null && _b !== void 0 ? _b : {};
     if (!settings.accessToken) {
-      this.auth = this._initSupabaseAuthClient((_c17 = settings.auth) !== null && _c17 !== void 0 ? _c17 : {}, this.headers, settings.global.fetch);
+      this.auth = this._initSupabaseAuthClient((_c16 = settings.auth) !== null && _c16 !== void 0 ? _c16 : {}, this.headers, settings.global.fetch);
     } else {
       this.accessToken = settings.accessToken;
       this.auth = new Proxy({}, {
@@ -29430,11 +29388,11 @@ if (import.meta) {
     //@ts-expect-error
     "app/lib/agent.ts"
   );
-  import.meta.hot.lastModified = "1734009279375.4292";
+  import.meta.hot.lastModified = "1734966184985.6233";
 }
-var apiKey = process.env.MISTRAL_API_KEY || "";
-var supabaseUrl = process.env.SUPABASE_URL || "";
-var supabaseKey = process.env.SUPABASE_KEY || "";
+var apiKey = "DV6vSywg34K6RY8YHN1lz7wHThUmEQaT";
+var supabaseUrl = "https://anxdvsppnslhokzukahv.supabase.co";
+var supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFueGR2c3BwbnNsaG9renVrYWh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzIyNzExMzcsImV4cCI6MjA0Nzg0NzEzN30.x6tt2reEn2WEfpnliWgc1DsBLtgkOzKWfL0LWFWu6AU";
 var supabase = createClient(supabaseUrl, supabaseKey);
 var mistralClient = new import_mistralai.Mistral({ apiKey });
 async function fetchDataFromSupabase(embedding) {
@@ -29453,6 +29411,21 @@ async function fetchDataFromSupabase(embedding) {
     return null;
   }
 }
+function formatResponse(response) {
+  response = response.replace(/(#{1,6}\s.*?:)(\s*)/g, (header, space) => {
+    return `<strong>${header}</strong>${space}`;
+  });
+  response = response.replace(/(\*\*.*?\*\*)(:)/g, "<strong>$1</strong>$2");
+  response = response.replace(/^(\d+)\.\s(.+)$/gm, (num, content) => {
+    return `<div class="pl-4"><strong>${num}.</strong> ${content}</div>`;
+  });
+  response = response.replace(/^-\s(.+)$/gm, '<div class="pl-4">\u2022 $1</div>');
+  response = response.replace(/^(#{1,6})\s(.+)$/gm, (hashes, content) => {
+    const level = hashes.length;
+    return `<h${level}>${content}</h${level}>`;
+  });
+  return response;
+}
 async function agent(query) {
   try {
     const embeddingResponse = await mistralClient.embeddings.create({
@@ -29465,7 +29438,7 @@ async function agent(query) {
     }
     const context = await fetchDataFromSupabase(embedding);
     const response = await generateChatResponse({ context, query });
-    return response;
+    return formatResponse(typeof response === "string" ? response : "");
   } catch (error) {
     console.error("Error in agent function:", error);
     return "I'm sorry, I couldn't process your request.";
@@ -29496,7 +29469,7 @@ async function generateChatResponse({
 }
 
 // app/components/ChatInterface.tsx
-var import_jsx_dev_runtime4 = __toESM(require_jsx_dev_runtime(), 1);
+var import_jsx_dev_runtime3 = __toESM(require_jsx_dev_runtime(), 1);
 if (!window.$RefreshReg$ || !window.$RefreshSig$ || !window.$RefreshRuntime$) {
   console.warn("remix:hmr: React Fast Refresh only works when the Remix compiler is running in development mode.");
 } else {
@@ -29516,7 +29489,7 @@ if (import.meta) {
     //@ts-expect-error
     "app/components/ChatInterface.tsx"
   );
-  import.meta.hot.lastModified = "1733993503412.221";
+  import.meta.hot.lastModified = "1734966547818.9731";
 }
 var LoadingDots = () => {
   _s();
@@ -29527,21 +29500,21 @@ var LoadingDots = () => {
     }, 500);
     return () => clearInterval(interval);
   }, []);
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)("div", { className: "flex justify-start", children: /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)("div", { className: `p-3 rounded-lg bg-gray-200 text-black`, children: [
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", { className: "flex justify-start", children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", { className: `p-3 rounded-lg bg-gray-200 text-black`, children: [
     "Thinking",
     ".".repeat(dots)
   ] }, void 0, true, {
     fileName: "app/components/ChatInterface.tsx",
-    lineNumber: 94,
+    lineNumber: 93,
     columnNumber: 7
   }, this) }, void 0, false, {
     fileName: "app/components/ChatInterface.tsx",
-    lineNumber: 93,
+    lineNumber: 92,
     columnNumber: 10
   }, this);
 };
 _s(LoadingDots, "vtslgnK/bEF5TxuxaF1WUjsIW7Y=");
-_c15 = LoadingDots;
+_c14 = LoadingDots;
 var ChatInterface = () => {
   _s2();
   const [messages, setMessages] = (0, import_react3.useState)([]);
@@ -29570,13 +29543,10 @@ var ChatInterface = () => {
         content: botResponse,
         sender: "bot",
         displayContent: ""
-        // Start with empty display content
       };
       setMessages((prev) => [...prev, newBotMessage]);
     } catch (error) {
       console.error("Error sending message:", error);
-      setMessages((prev) => prev.filter((msg) => msg.sender !== "loading"));
-    } finally {
     }
   };
   (0, import_react3.useEffect)(() => {
@@ -29596,80 +29566,86 @@ var ChatInterface = () => {
     }, 20);
     return () => clearInterval(typingInterval);
   }, [messages]);
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)("div", { className: "flex justify-center items-center min-h-screen bg-gray-100", children: /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)(Card, { className: "w-full max-w-md", children: [
-    /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)(CardHeader, { children: /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)(CardTitle, { children: "Remix Chat" }, void 0, false, {
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", { className: "flex justify-center items-center min-h-screen bg-gray-100", children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(Card, { className: "w-full max-w-lg", children: [
+    /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(CardHeader, { children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(CardTitle, { children: "Remix Chat" }, void 0, false, {
       fileName: "app/components/ChatInterface.tsx",
-      lineNumber: 176,
+      lineNumber: 167,
       columnNumber: 11
     }, this) }, void 0, false, {
       fileName: "app/components/ChatInterface.tsx",
-      lineNumber: 175,
+      lineNumber: 166,
       columnNumber: 9
     }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)(CardContent, { className: "h-96 overflow-y-auto space-y-4", children: messages.map((msg) => {
+    /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(CardContent, { className: "h-96 overflow-y-auto space-y-4", children: messages.map((msg) => {
       if (msg.sender === "loading") {
-        return /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)(LoadingDots, {}, msg.id, false, {
+        return /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(LoadingDots, {}, msg.id, false, {
           fileName: "app/components/ChatInterface.tsx",
-          lineNumber: 181,
+          lineNumber: 172,
           columnNumber: 20
         }, this);
       }
-      return /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)("div", { className: `flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`, children: /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)("div", { className: `p-3 rounded-lg max-w-[70%] ${msg.sender === "user" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`, children: msg.sender === "user" ? msg.content : msg.displayContent || msg.content }, void 0, false, {
+      return /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", { className: `flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`, children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", { className: `p-3 rounded-lg max-w-[70%] ${msg.sender === "user" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`, children: msg.sender === "user" ? msg.content : /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", { dangerouslySetInnerHTML: {
+        __html: msg.displayContent || msg.content
+      } }, void 0, false, {
         fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 184,
+        lineNumber: 176,
+        columnNumber: 58
+      }, this) }, void 0, false, {
+        fileName: "app/components/ChatInterface.tsx",
+        lineNumber: 175,
         columnNumber: 17
       }, this) }, msg.id, false, {
         fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 183,
+        lineNumber: 174,
         columnNumber: 18
       }, this);
     }) }, void 0, false, {
       fileName: "app/components/ChatInterface.tsx",
-      lineNumber: 178,
+      lineNumber: 169,
       columnNumber: 9
     }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)(CardFooter, { className: "flex space-x-2", children: [
-      /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)(Input, { value: inputMessage, onChange: (e) => setInputMessage(e.target.value), onKeyDown: (e) => e.key === "Enter" && handleSendMessage(), placeholder: "Type a message...", className: "flex-1" }, void 0, false, {
+    /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(CardFooter, { className: "flex space-x-2", children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("textarea", { value: inputMessage, onChange: (e) => setInputMessage(e.target.value), placeholder: "Type a message...", className: "flex-1 w-full p-2 border rounded-lg resize-none min-h-[44px] overflow-y-auto break-words whitespace-pre-wrap bg-white scrollbar-hide focus:outline-none" }, void 0, false, {
         fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 192,
+        lineNumber: 184,
         columnNumber: 11
       }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)(Button, { onClick: handleSendMessage, variant: "default", size: "icon", children: /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)(Send, { className: "h-4 w-4" }, void 0, false, {
+      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(Button, { onClick: handleSendMessage, variant: "default", size: "icon", children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(Send, { className: "h-4 w-4" }, void 0, false, {
         fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 194,
+        lineNumber: 186,
         columnNumber: 13
       }, this) }, void 0, false, {
         fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 193,
+        lineNumber: 185,
         columnNumber: 11
       }, this)
     ] }, void 0, true, {
       fileName: "app/components/ChatInterface.tsx",
-      lineNumber: 191,
+      lineNumber: 183,
       columnNumber: 9
     }, this)
   ] }, void 0, true, {
     fileName: "app/components/ChatInterface.tsx",
-    lineNumber: 174,
+    lineNumber: 165,
     columnNumber: 7
   }, this) }, void 0, false, {
     fileName: "app/components/ChatInterface.tsx",
-    lineNumber: 173,
+    lineNumber: 164,
     columnNumber: 10
   }, this);
 };
 _s2(ChatInterface, "PWoOFtjQcc9Bp+irUdbX7/BbTWM=");
-_c24 = ChatInterface;
+_c23 = ChatInterface;
 var ChatInterface_default = ChatInterface;
-var _c15;
-var _c24;
-$RefreshReg$(_c15, "LoadingDots");
-$RefreshReg$(_c24, "ChatInterface");
+var _c14;
+var _c23;
+$RefreshReg$(_c14, "LoadingDots");
+$RefreshReg$(_c23, "ChatInterface");
 window.$RefreshReg$ = prevRefreshReg;
 window.$RefreshSig$ = prevRefreshSig;
 
 // app/routes/_index.tsx
-var import_jsx_dev_runtime5 = __toESM(require_jsx_dev_runtime(), 1);
+var import_jsx_dev_runtime4 = __toESM(require_jsx_dev_runtime(), 1);
 if (!window.$RefreshReg$ || !window.$RefreshSig$ || !window.$RefreshRuntime$) {
   console.warn("remix:hmr: React Fast Refresh only works when the Remix compiler is running in development mode.");
 } else {
@@ -29698,15 +29674,15 @@ var meta = () => {
   }];
 };
 function Index() {
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime5.jsxDEV)(ChatInterface_default, {}, void 0, false, {
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)(ChatInterface_default, {}, void 0, false, {
     fileName: "app/routes/_index.tsx",
     lineNumber: 33,
     columnNumber: 10
   }, this);
 }
-_c16 = Index;
-var _c16;
-$RefreshReg$(_c16, "Index");
+_c15 = Index;
+var _c15;
+$RefreshReg$(_c15, "Index");
 window.$RefreshReg$ = prevRefreshReg;
 window.$RefreshSig$ = prevRefreshSig;
 export {
@@ -29763,4 +29739,4 @@ lucide-react/dist/esm/lucide-react.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 */
-//# sourceMappingURL=/build/routes/_index-6G7I5RG5.js.map
+//# sourceMappingURL=/build/routes/_index-LWK5L4HH.js.map

@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { Send } from "lucide-react";
 import { ActionFunction, json } from "@remix-run/node";
@@ -81,7 +80,6 @@ const LoadingDots = () => {
 const ChatInterface = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
-//   const [loading, setLoading] = useState(false);
 
   const handleSendMessage = async () => {
     if (inputMessage.trim() === "") return;
@@ -97,8 +95,6 @@ const ChatInterface = () => {
     setInputMessage("");
 
     try {
-    //   setLoading(true);
-
       // Add a loading message
       const loadingMessage: Message = {
         id: `loading-${Date.now()}`,
@@ -118,16 +114,12 @@ const ChatInterface = () => {
         id: `bot-${Date.now()}`,
         content: botResponse,
         sender: "bot",
-        displayContent: "", // Start with empty display content
+        displayContent: "",
       };
 
       setMessages((prev) => [...prev, newBotMessage]);
     } catch (error) {
       console.error("Error sending message:", error);
-      // Remove loading message in case of error
-      setMessages((prev) => prev.filter((msg) => msg.sender !== "loading"));
-    } finally {
-    //   setLoading(false);
     }
   };
 
@@ -161,7 +153,7 @@ const ChatInterface = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-lg">
         <CardHeader>
           <CardTitle>Remix Chat</CardTitle>
         </CardHeader>
@@ -185,22 +177,26 @@ const ChatInterface = () => {
                       : "bg-gray-200 text-black"
                   }`}
                 >
-                  {/* Use displayContent for bot messages, full content for user messages */}
-                  {msg.sender === "user"
-                    ? msg.content
-                    : msg.displayContent || msg.content}
+                  {msg.sender === "user" ? (
+                    msg.content
+                  ) : (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: msg.displayContent || msg.content,
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             );
           })}
         </CardContent>
         <CardFooter className="flex space-x-2">
-          <Input
+          <textarea
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
             placeholder="Type a message..."
-            className="flex-1"
+            className="flex-1 w-full p-2 border rounded-lg resize-none min-h-[44px] overflow-y-auto break-words whitespace-pre-wrap bg-white scrollbar-hide focus:outline-none"
           />
           <Button onClick={handleSendMessage} variant="default" size="icon">
             <Send className="h-4 w-4" />
