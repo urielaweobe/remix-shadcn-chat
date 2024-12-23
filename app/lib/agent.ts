@@ -1,10 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 import { Mistral } from "@mistralai/mistralai";
 
-const apiKey = "DV6vSywg34K6RY8YHN1lz7wHThUmEQaT";
-const supabaseUrl = "https://anxdvsppnslhokzukahv.supabase.co";
-const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFueGR2c3BwbnNsaG9renVrYWh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzIyNzExMzcsImV4cCI6MjA0Nzg0NzEzN30.x6tt2reEn2WEfpnliWgc1DsBLtgkOzKWfL0LWFWu6AU";
+const apiKey = "";
+const supabaseUrl = "";
+const supabaseKey = "";
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 const mistralClient = new Mistral({ apiKey });
