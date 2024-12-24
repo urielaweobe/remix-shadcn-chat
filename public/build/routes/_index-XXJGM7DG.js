@@ -23618,6 +23618,13 @@ var Send = createLucideIcon("Send", [
   ["path", { d: "m21.854 2.147-10.94 10.939", key: "12cjpa" }]
 ]);
 
+// node_modules/lucide-react/dist/esm/icons/trash.js
+var Trash = createLucideIcon("Trash", [
+  ["path", { d: "M3 6h18", key: "d0wm0j" }],
+  ["path", { d: "M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6", key: "4alrt4" }],
+  ["path", { d: "M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2", key: "v07s0e" }]
+]);
+
 // node_modules/lucide-react/dist/esm/icons/x.js
 var X = createLucideIcon("X", [
   ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
@@ -29290,11 +29297,11 @@ if (import.meta) {
     //@ts-expect-error
     "app/lib/agent.ts"
   );
-  import.meta.hot.lastModified = "1734970326040.35";
+  import.meta.hot.lastModified = "1734970359666.2043";
 }
-var apiKey = "";
-var supabaseUrl = "";
-var supabaseKey = "";
+var apiKey = "DV6vSywg34K6RY8YHN1lz7wHThUmEQaT";
+var supabaseUrl = "https://anxdvsppnslhokzukahv.supabase.co";
+var supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFueGR2c3BwbnNsaG9renVrYWh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzIyNzExMzcsImV4cCI6MjA0Nzg0NzEzN30.x6tt2reEn2WEfpnliWgc1DsBLtgkOzKWfL0LWFWu6AU";
 var supabase = createClient(supabaseUrl, supabaseKey);
 var mistralClient = new import_mistralai.Mistral({ apiKey });
 async function fetchDataFromSupabase(embedding) {
@@ -29391,7 +29398,7 @@ if (import.meta) {
     //@ts-expect-error
     "app/components/ChatInterface.tsx"
   );
-  import.meta.hot.lastModified = "1734970257779.9988";
+  import.meta.hot.lastModified = "1734980328816.2034";
 }
 var LoadingDots = () => {
   _s();
@@ -29422,6 +29429,60 @@ var ChatInterface = () => {
   const [messages, setMessages] = (0, import_react3.useState)([]);
   const [inputMessage, setInputMessage] = (0, import_react3.useState)("");
   const [isSidebarOpen, setSidebarOpen] = (0, import_react3.useState)(false);
+  const [savedChats, setSavedChats] = (0, import_react3.useState)([]);
+  const [activeChatId, setActiveChatId] = (0, import_react3.useState)(null);
+  const [isLoadedFromLocalStorage, setIsLoadedFromLocalStorage] = (0, import_react3.useState)(false);
+  (0, import_react3.useEffect)(() => {
+    const chats = localStorage.getItem("savedChats");
+    if (chats) {
+      setSavedChats(JSON.parse(chats));
+    }
+  }, []);
+  const saveCurrentChat = (updatedMessages) => {
+    const firstUserMessage = updatedMessages.find((msg) => msg.sender === "user")?.content;
+    const chatName = firstUserMessage ? `${firstUserMessage.slice(0, 20)}...` : "New Chat";
+    if (activeChatId) {
+      const updatedChats = savedChats.map((chat) => chat.id === activeChatId ? {
+        ...chat,
+        messages: updatedMessages
+      } : chat);
+      setSavedChats(updatedChats);
+      localStorage.setItem("savedChats", JSON.stringify(updatedChats));
+    } else {
+      const newChat = {
+        id: `chat-${Date.now()}`,
+        name: chatName,
+        messages: updatedMessages
+      };
+      const updatedChats = [...savedChats, newChat];
+      setSavedChats(updatedChats);
+      localStorage.setItem("savedChats", JSON.stringify(updatedChats));
+      setActiveChatId(newChat.id);
+    }
+  };
+  const loadChat = (id) => {
+    const chat = savedChats.find((c) => c.id === id);
+    if (chat) {
+      setMessages(chat.messages);
+      setActiveChatId(chat.id);
+      setSidebarOpen(false);
+      setIsLoadedFromLocalStorage(true);
+    }
+  };
+  const deleteChat = (id) => {
+    const updatedChats = savedChats.filter((c) => c.id !== id);
+    setSavedChats(updatedChats);
+    localStorage.setItem("savedChats", JSON.stringify(updatedChats));
+    if (id === activeChatId) {
+      startNewChat();
+    }
+  };
+  const startNewChat = () => {
+    setMessages([]);
+    setActiveChatId(null);
+    setSidebarOpen(false);
+    setIsLoadedFromLocalStorage(false);
+  };
   const handleSendMessage = async () => {
     if (inputMessage.trim() === "")
       return;
@@ -29440,19 +29501,23 @@ var ChatInterface = () => {
       };
       setMessages((prev) => [...prev, loadingMessage]);
       const botResponse = await agent(inputMessage);
-      setMessages((prev) => prev.filter((msg) => msg.sender !== "loading"));
-      const newBotMessage = {
-        id: `bot-${Date.now()}`,
-        content: botResponse,
-        sender: "bot",
-        displayContent: ""
-      };
-      setMessages((prev) => [...prev, newBotMessage]);
+      setMessages((prev) => {
+        const updatedMessages = prev.filter((msg) => msg.sender !== "loading").concat({
+          id: `bot-${Date.now()}`,
+          content: botResponse,
+          sender: "bot"
+        });
+        saveCurrentChat(updatedMessages);
+        return updatedMessages;
+      });
     } catch (error) {
       console.error("Error sending message:", error);
     }
   };
   (0, import_react3.useEffect)(() => {
+    if (isLoadedFromLocalStorage) {
+      return;
+    }
     const typingInterval = setInterval(() => {
       setMessages((prevMessages) => {
         return prevMessages.map((message) => {
@@ -29460,81 +29525,111 @@ var ChatInterface = () => {
             const nextChar = message.content.charAt(message.displayContent?.length || 0);
             return {
               ...message,
-              displayContent: (message.displayContent || "") + (nextChar || "")
+              displayContent: (message.displayContent || "") + nextChar
             };
           }
           return message;
         });
       });
-    }, 10);
+    }, 20);
     return () => clearInterval(typingInterval);
-  }, [messages]);
+  }, [messages, isLoadedFromLocalStorage]);
   return /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "flex h-screen bg-gray-100", children: [
     /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: `fixed inset-y-0 left-0 w-64 bg-white shadow-lg transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 z-10`, children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "flex flex-col w-full", children: [
       /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "p-4 border-b flex justify-between items-center", children: [
         /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("h2", { className: "font-semibold", children: "Conversations" }, void 0, false, {
           fileName: "app/components/ChatInterface.tsx",
-          lineNumber: 167,
+          lineNumber: 229,
           columnNumber: 13
         }, this),
-        /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Button, { variant: "ghost", size: "icon", className: "lg:hidden", onClick: () => setSidebarOpen(false), children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(X, { className: "h-4 w-4" }, void 0, false, {
+        /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Button, { variant: "ghost", size: "icon", onClick: () => setSidebarOpen(false), children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(X, { className: "h-4 w-4" }, void 0, false, {
           fileName: "app/components/ChatInterface.tsx",
-          lineNumber: 169,
+          lineNumber: 231,
           columnNumber: 15
         }, this) }, void 0, false, {
           fileName: "app/components/ChatInterface.tsx",
-          lineNumber: 168,
+          lineNumber: 230,
           columnNumber: 13
         }, this)
       ] }, void 0, true, {
         fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 166,
+        lineNumber: 228,
         columnNumber: 11
       }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "flex-1 overflow-y-auto p-4", children: ["Chat 1", "Chat 2", "Chat 3"].map((chat, index2) => /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "p-3 hover:bg-gray-100 rounded-lg cursor-pointer mb-2", children: chat }, index2, false, {
+      /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "flex-1 overflow-y-auto p-4", children: [
+        /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "flex justify-center mb-3", children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Button, { variant: "outline", onClick: startNewChat, children: "Start a new chat" }, void 0, false, {
+          fileName: "app/components/ChatInterface.tsx",
+          lineNumber: 237,
+          columnNumber: 15
+        }, this) }, void 0, false, {
+          fileName: "app/components/ChatInterface.tsx",
+          lineNumber: 236,
+          columnNumber: 13
+        }, this),
+        savedChats.map((chat) => /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "flex justify-between items-center p-2 border rounded-lg hover:bg-gray-200 cursor-pointer mb-3", children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { role: "button", tabIndex: 0, onClick: () => loadChat(chat.id), onKeyDown: (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              loadChat(chat.id);
+            }
+          }, children: chat.name }, void 0, false, {
+            fileName: "app/components/ChatInterface.tsx",
+            lineNumber: 242,
+            columnNumber: 17
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Button, { variant: "ghost", size: "icon", onClick: () => deleteChat(chat.id), children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Trash, { className: "h-4 w-4", color: "red" }, void 0, false, {
+            fileName: "app/components/ChatInterface.tsx",
+            lineNumber: 250,
+            columnNumber: 19
+          }, this) }, void 0, false, {
+            fileName: "app/components/ChatInterface.tsx",
+            lineNumber: 249,
+            columnNumber: 17
+          }, this)
+        ] }, chat.id, true, {
+          fileName: "app/components/ChatInterface.tsx",
+          lineNumber: 241,
+          columnNumber: 37
+        }, this))
+      ] }, void 0, true, {
         fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 174,
-        columnNumber: 66
-      }, this)) }, void 0, false, {
-        fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 172,
+        lineNumber: 234,
         columnNumber: 11
       }, this)
     ] }, void 0, true, {
       fileName: "app/components/ChatInterface.tsx",
-      lineNumber: 165,
+      lineNumber: 227,
       columnNumber: 9
     }, this) }, void 0, false, {
       fileName: "app/components/ChatInterface.tsx",
-      lineNumber: 164,
+      lineNumber: 226,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "flex-1 flex flex-col h-full", children: [
       /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "bg-white border-b p-4 flex items-center", children: [
-        /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Button, { variant: "ghost", size: "icon", className: "lg:hidden mr-2", onClick: () => setSidebarOpen(true), children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Menu, { className: "h-4 w-4" }, void 0, false, {
+        /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Button, { variant: "ghost", size: "icon", className: "mr-2", onClick: () => setSidebarOpen(true), children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Menu, { className: "h-4 w-4" }, void 0, false, {
           fileName: "app/components/ChatInterface.tsx",
-          lineNumber: 184,
+          lineNumber: 260,
           columnNumber: 13
         }, this) }, void 0, false, {
           fileName: "app/components/ChatInterface.tsx",
-          lineNumber: 183,
+          lineNumber: 259,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("h1", { className: "font-semibold", children: "Remix Chat" }, void 0, false, {
           fileName: "app/components/ChatInterface.tsx",
-          lineNumber: 186,
+          lineNumber: 262,
           columnNumber: 11
         }, this)
       ] }, void 0, true, {
         fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 182,
+        lineNumber: 258,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "flex-1 overflow-y-auto p-4 space-y-4", children: messages.map((msg) => {
         if (msg.sender === "loading") {
           return /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(LoadingDots, {}, msg.id, false, {
             fileName: "app/components/ChatInterface.tsx",
-            lineNumber: 192,
+            lineNumber: 268,
             columnNumber: 20
           }, this);
         }
@@ -29542,58 +29637,58 @@ var ChatInterface = () => {
           __html: msg.displayContent || msg.content
         } }, void 0, false, {
           fileName: "app/components/ChatInterface.tsx",
-          lineNumber: 196,
+          lineNumber: 272,
           columnNumber: 58
         }, this) }, void 0, false, {
           fileName: "app/components/ChatInterface.tsx",
-          lineNumber: 195,
+          lineNumber: 271,
           columnNumber: 17
         }, this) }, msg.id, false, {
           fileName: "app/components/ChatInterface.tsx",
-          lineNumber: 194,
+          lineNumber: 270,
           columnNumber: 18
         }, this);
       }) }, void 0, false, {
         fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 189,
+        lineNumber: 265,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "border-t bg-white p-4", children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "flex space-x-2", children: [
         /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("textarea", { value: inputMessage, onChange: (e) => setInputMessage(e.target.value), placeholder: "Type a message...", className: "flex-1 p-2 border rounded-lg resize-none min-h-[44px] max-h-[120px] overflow-y-auto break-words whitespace-pre-wrap bg-white scrollbar-hide focus:outline-none" }, void 0, false, {
           fileName: "app/components/ChatInterface.tsx",
-          lineNumber: 206,
+          lineNumber: 282,
           columnNumber: 13
         }, this),
         /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Button, { onClick: handleSendMessage, variant: "default", size: "icon", className: "mt-3", children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(Send, { className: "h-4 w-4" }, void 0, false, {
           fileName: "app/components/ChatInterface.tsx",
-          lineNumber: 208,
+          lineNumber: 284,
           columnNumber: 15
         }, this) }, void 0, false, {
           fileName: "app/components/ChatInterface.tsx",
-          lineNumber: 207,
+          lineNumber: 283,
           columnNumber: 13
         }, this)
       ] }, void 0, true, {
         fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 205,
+        lineNumber: 281,
         columnNumber: 11
       }, this) }, void 0, false, {
         fileName: "app/components/ChatInterface.tsx",
-        lineNumber: 204,
+        lineNumber: 280,
         columnNumber: 9
       }, this)
     ] }, void 0, true, {
       fileName: "app/components/ChatInterface.tsx",
-      lineNumber: 181,
+      lineNumber: 257,
       columnNumber: 7
     }, this)
   ] }, void 0, true, {
     fileName: "app/components/ChatInterface.tsx",
-    lineNumber: 163,
+    lineNumber: 225,
     columnNumber: 10
   }, this);
 };
-_s2(ChatInterface, "dZ+y6btb7J0dFCo/rDpsabQblUU=");
+_s2(ChatInterface, "MPSRpQi0ZuC8XX/yxkDm00cSOQQ=");
 _c22 = ChatInterface;
 var ChatInterface_default = ChatInterface;
 var _c3;
@@ -29698,6 +29793,14 @@ lucide-react/dist/esm/icons/send.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
+lucide-react/dist/esm/icons/trash.js:
+  (**
+   * @license lucide-react v0.468.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
 lucide-react/dist/esm/icons/x.js:
   (**
    * @license lucide-react v0.468.0 - ISC
@@ -29714,4 +29817,4 @@ lucide-react/dist/esm/lucide-react.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 */
-//# sourceMappingURL=/build/routes/_index-YZWAQAYO.js.map
+//# sourceMappingURL=/build/routes/_index-XXJGM7DG.js.map

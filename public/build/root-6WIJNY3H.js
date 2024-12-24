@@ -20,7 +20,7 @@ import {
 } from "/build/_shared/chunk-PNG5AS42.js";
 
 // app/tailwind.css
-var tailwind_default = "/build/_assets/tailwind-QJZT2L2W.css";
+var tailwind_default = "/build/_assets/tailwind-LRAMLSC3.css";
 
 // app/root.tsx
 var import_jsx_dev_runtime = __toESM(require_jsx_dev_runtime(), 1);
@@ -115,4 +115,4 @@ export {
   App as default,
   links
 };
-//# sourceMappingURL=/build/root-L67GGNPX.js.map
+//# sourceMappingURL=/build/root-6WIJNY3H.js.map

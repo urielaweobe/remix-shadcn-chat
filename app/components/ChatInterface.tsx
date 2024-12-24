@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "~/components/ui/button";
-import { Menu, Send, X } from "lucide-react";
+import { Menu, Send, X, Trash } from "lucide-react";
 import { ActionFunction, json } from "@remix-run/node";
 import { agent } from "~/lib/agent";
 
@@ -10,6 +10,12 @@ type Message = {
   content: string;
   sender: "user" | "bot" | "loading";
   displayContent?: string;
+};
+
+type SavedConversation = {
+  id: string;
+  messages: Message[];
+  name: string;
 };
 
 export const action: ActionFunction = async ({ request }) => {
@@ -74,6 +80,75 @@ const ChatInterface = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [savedChats, setSavedChats] = useState<SavedConversation[]>([]);
+  const [activeChatId, setActiveChatId] = useState<string | null>(null);
+  const [isLoadedFromLocalStorage, setIsLoadedFromLocalStorage] =
+    useState(false);
+
+  useEffect(() => {
+    const chats = localStorage.getItem("savedChats");
+    if (chats) {
+      setSavedChats(JSON.parse(chats));
+    }
+  }, []);
+
+  const saveCurrentChat = (updatedMessages: Message[]) => {
+    // Generate a name for the conversation based on the first message
+    const firstUserMessage = updatedMessages.find(
+      (msg) => msg.sender === "user"
+    )?.content;
+    const chatName = firstUserMessage
+      ? `${firstUserMessage.slice(0, 20)}...`
+      : "New Chat";
+
+    if (activeChatId) {
+      // Update the existing chat
+      const updatedChats = savedChats.map((chat) =>
+        chat.id === activeChatId ? { ...chat, messages: updatedMessages } : chat
+      );
+      setSavedChats(updatedChats);
+      localStorage.setItem("savedChats", JSON.stringify(updatedChats));
+    } else {
+      // Create a new chat
+      const newChat: SavedConversation = {
+        id: `chat-${Date.now()}`,
+        name: chatName,
+        messages: updatedMessages,
+      };
+      const updatedChats = [...savedChats, newChat];
+      setSavedChats(updatedChats);
+      localStorage.setItem("savedChats", JSON.stringify(updatedChats));
+      setActiveChatId(newChat.id);
+    }
+  };
+
+  // Load a saved conversation
+  const loadChat = (id: string) => {
+    const chat = savedChats.find((c) => c.id === id);
+    if (chat) {
+      setMessages(chat.messages);
+      setActiveChatId(chat.id);
+      setSidebarOpen(false);
+      setIsLoadedFromLocalStorage(true);
+    }
+  };
+
+  // Delete a saved conversation
+  const deleteChat = (id: string) => {
+    const updatedChats = savedChats.filter((c) => c.id !== id);
+    setSavedChats(updatedChats);
+    localStorage.setItem("savedChats", JSON.stringify(updatedChats));
+    if (id === activeChatId) {
+      startNewChat(); // Clear the current chat if it was deleted
+    }
+  };
+
+  const startNewChat = () => {
+    setMessages([]);
+    setActiveChatId(null);
+    setSidebarOpen(false);
+    setIsLoadedFromLocalStorage(false);
+  };
 
   const handleSendMessage = async () => {
     if (inputMessage.trim() === "") return;
@@ -100,18 +175,20 @@ const ChatInterface = () => {
       // Simulate sending user message
       const botResponse = (await agent(inputMessage)) as string;
 
-      // Remove loading message
-      setMessages((prev) => prev.filter((msg) => msg.sender !== "loading"));
+      setMessages((prev) => {
+        const updatedMessages = prev
+          .filter((msg) => msg.sender !== "loading")
+          .concat({
+            id: `bot-${Date.now()}`,
+            content: botResponse,
+            sender: "bot",
+          });
 
-      // Bot's response
-      const newBotMessage: Message = {
-        id: `bot-${Date.now()}`,
-        content: botResponse,
-        sender: "bot",
-        displayContent: "",
-      };
+        // Save conversation after bot's reply
+        saveCurrentChat(updatedMessages);
 
-      setMessages((prev) => [...prev, newBotMessage]);
+        return updatedMessages;
+      });
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -119,31 +196,32 @@ const ChatInterface = () => {
 
   // Letter-by-letter typing effect
   useEffect(() => {
+    if (isLoadedFromLocalStorage) {
+      return;
+    }
+
     const typingInterval = setInterval(() => {
       setMessages((prevMessages) => {
         return prevMessages.map((message) => {
-          // Only apply typing to bot messages that are not fully typed
           if (
             message.sender === "bot" &&
             message.displayContent !== message.content
           ) {
-            // Get the next character to display
             const nextChar = message.content.charAt(
               message.displayContent?.length || 0
             );
-
             return {
               ...message,
-              displayContent: (message.displayContent || "") + (nextChar || ""),
+              displayContent: (message.displayContent || "") + nextChar,
             };
           }
           return message;
         });
       });
-    }, 10);
+    }, 20); // Adjust typing speed (50ms between characters)
 
     return () => clearInterval(typingInterval);
-  }, [messages]);
+  }, [messages, isLoadedFromLocalStorage]);
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -158,7 +236,6 @@ const ChatInterface = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden"
               onClick={() => setSidebarOpen(false)}
             >
               <X className="h-4 w-4" />
@@ -166,12 +243,35 @@ const ChatInterface = () => {
           </div>
           <div className="flex-1 overflow-y-auto p-4">
             {/* Conversation list items */}
-            {["Chat 1", "Chat 2", "Chat 3"].map((chat, index) => (
+            <div className="flex justify-center mb-3">
+              <Button variant="outline" onClick={startNewChat}>
+                Start a new chat
+              </Button>
+            </div>
+            {savedChats.map((chat) => (
               <div
-                key={index}
-                className="p-3 hover:bg-gray-100 rounded-lg cursor-pointer mb-2"
+                key={chat.id}
+                className="flex justify-between items-center p-2 border rounded-lg hover:bg-gray-200 cursor-pointer mb-3"
               >
-                {chat}
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => loadChat(chat.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      loadChat(chat.id);
+                    }
+                  }}
+                >
+                  {chat.name}
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => deleteChat(chat.id)}
+                >
+                  <Trash className="h-4 w-4" color="red" />
+                </Button>
               </div>
             ))}
           </div>
@@ -183,7 +283,7 @@ const ChatInterface = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden mr-2"
+            className="mr-2"
             onClick={() => setSidebarOpen(true)}
           >
             <Menu className="h-4 w-4" />
