@@ -29297,7 +29297,7 @@ if (import.meta) {
     //@ts-expect-error
     "app/lib/agent.ts"
   );
-  import.meta.hot.lastModified = "1734970359666.2043";
+  import.meta.hot.lastModified = "1735299333037.8274";
 }
 var apiKey = "DV6vSywg34K6RY8YHN1lz7wHThUmEQaT";
 var supabaseUrl = "https://anxdvsppnslhokzukahv.supabase.co";
@@ -29398,7 +29398,7 @@ if (import.meta) {
     //@ts-expect-error
     "app/components/ChatInterface.tsx"
   );
-  import.meta.hot.lastModified = "1734980328816.2034";
+  import.meta.hot.lastModified = "1735299306315.9595";
 }
 var LoadingDots = () => {
   _s();
@@ -29817,4 +29817,4 @@ lucide-react/dist/esm/lucide-react.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 */
-//# sourceMappingURL=/build/routes/_index-XXJGM7DG.js.map
+//# sourceMappingURL=/build/routes/_index-GLPROUSM.js.map

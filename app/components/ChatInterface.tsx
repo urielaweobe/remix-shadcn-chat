@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import { Button } from "~/components/ui/button";
 import { Menu, Send, X, Trash } from "lucide-react";
@@ -49,7 +50,7 @@ export const action: ActionFunction = async ({ request }) => {
         ],
       });
     } catch (error) {
-      return json({ error: "Failed to process the message" }, { status: 500 });
+      return json({ error: `Failed to process the message - ${error}` }, { status: 500 });
     }
   }
 
