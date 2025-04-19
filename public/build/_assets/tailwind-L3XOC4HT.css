@@ -385,9 +385,6 @@ body {
 .mr-2 {
   margin-right: .5rem;
 }
-.mt-3 {
-  margin-top: .75rem;
-}
 .flex {
   display: flex;
 }
@@ -411,12 +408,6 @@ body {
 }
 .h-screen {
   height: 100vh;
-}
-.max-h-\[120px\] {
-  max-height: 120px;
-}
-.min-h-\[44px\] {
-  min-height: 44px;
 }
 .w-10 {
   width: 2.5rem;
@@ -794,4 +785,4 @@ body {
 .\[\&_svg\]\:shrink-0 svg {
   flex-shrink: 0;
 }
-/*# sourceMappingURL=/build/_assets/tailwind-CSWJ4M7P.css.map */
+/*# sourceMappingURL=/build/_assets/tailwind-5B7QIZZV.css.map */

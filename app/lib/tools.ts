@@ -1,3 +1,5 @@
+import { Tool } from "@mistralai/mistralai/models/components";
+
 const data = [
   {
     transaction_id: "T1001",
@@ -52,7 +54,7 @@ export function getPaymentDate({ transactionId }: { transactionId: string }) {
   return JSON.stringify({ error: "transaction id not found." });
 }
 
-export const tools = [
+export const paymentTools = [
   {
     type: "function",
     function: {
@@ -84,6 +86,63 @@ export const tools = [
           },
         },
         required: ["transactionId"],
+      },
+    },
+  },
+];
+
+export async function getCurrentWeather({
+  location,
+}: {
+  location: string;
+  unit?: string;
+}) {
+  console.log("Location:", location);
+  const weather = {
+    location,
+    temperature: "72",
+    forecast: "sunny",
+  };
+  return JSON.stringify(weather);
+}
+
+export async function getLocation(): Promise<string> {
+  try {
+    const response = await fetch("https://ipapi.co/json/");
+    const text = await response.json();
+    return JSON.stringify(text);
+  } catch (err) {
+    console.log(err);
+    return "Could not fetch location";
+  }
+}
+
+export const tools: Tool[] = [
+  {
+    type: "function",
+    function: {
+      name: "getCurrentWeather",
+      description: "Get the current weather",
+      parameters: {
+        type: "object",
+        properties: {
+          location: {
+            type: "string",
+            description: "The location from where to get the weather.",
+          },
+        },
+        required: ["location"],
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "getLocation",
+      description: "Get the user's current location",
+      parameters: {
+        type: "object",
+        properties: {},
       },
     },
   },

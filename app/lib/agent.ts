@@ -1,12 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
-import { Mistral } from "@mistralai/mistralai";
-
-const apiKey = "";
-const supabaseUrl = "";
-const supabaseKey = "";
-
-const supabase = createClient(supabaseUrl, supabaseKey);
-const mistralClient = new Mistral({ apiKey });
+import { mistralClient, supabase } from "./utils";
 
 async function fetchDataFromSupabase(embedding: number[]) {
   try {

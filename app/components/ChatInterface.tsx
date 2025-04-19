@@ -50,7 +50,10 @@ export const action: ActionFunction = async ({ request }) => {
         ],
       });
     } catch (error) {
-      return json({ error: `Failed to process the message - ${error}` }, { status: 500 });
+      return json(
+        { error: `Failed to process the message - ${error}` },
+        { status: 500 }
+      );
     }
   }
 
@@ -306,7 +309,7 @@ const ChatInterface = () => {
                 }`}
               >
                 <div
-                  className={`p-3 rounded-lg max-w-[70%] ${
+                  className={`p-3 rounded-lg max-w-[70%] whitespace-pre-wrap ${
                     msg.sender === "user"
                       ? "bg-blue-500 text-white"
                       : "bg-gray-200 text-black"
@@ -330,16 +333,23 @@ const ChatInterface = () => {
         <div className="border-t bg-white p-4">
           <div className="flex space-x-2">
             <textarea
+              rows={1}
               value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
+              onChange={(e) => {
+                setInputMessage(e.target.value);
+                const textarea = e.target;
+                textarea.style.height = "auto";
+                textarea.style.height =
+                  Math.min(textarea.scrollHeight, 4 * 24) + "px";
+              }}
+              style={{ minHeight: "24px", maxHeight: "96px" }}
               placeholder="Type a message..."
-              className="flex-1 p-2 border rounded-lg resize-none min-h-[44px] max-h-[120px] overflow-y-auto break-words whitespace-pre-wrap bg-white scrollbar-hide focus:outline-none"
+              className="flex-1 p-2 border rounded-lg resize-none overflow-y-auto break-words whitespace-pre-wrap bg-white scrollbar-hide focus:outline-none"
             />
             <Button
               onClick={handleSendMessage}
               variant="default"
               size="icon"
-              className="mt-3"
             >
               <Send className="h-4 w-4" />
             </Button>
